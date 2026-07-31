@@ -1292,10 +1292,10 @@ function App() {
           <div ref={growthRef} className="growth-dashboard">
             {/* Left: Constellation Map */}
             <div className="growth-map-col">
-              <svg className="constellation-svg" viewBox="0 0 260 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg className="constellation-svg" viewBox="0 0 300 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                 {/* Background Connecting Path (Inactive) */}
                 <path 
-                  d="M 130 65 L 70 185 L 190 310 L 130 435" 
+                  d="M 150 65 L 90 185 L 210 310 L 150 435" 
                   stroke="rgba(169, 127, 56, 0.12)" 
                   strokeWidth="2" 
                   strokeDasharray="4 4" 
@@ -1303,7 +1303,7 @@ function App() {
                 
                 {/* Active drawing path */}
                 <path 
-                  d="M 130 65 L 70 185 L 190 310 L 130 435" 
+                  d="M 150 65 L 90 185 L 210 310 L 150 435" 
                   stroke="var(--gold-primary)" 
                   strokeWidth="2" 
                   strokeDasharray="450" 
@@ -1315,30 +1315,30 @@ function App() {
 
                 {/* Node 1: Core Operations */}
                 <g className={`map-node ${growthProgress >= 0 ? 'active' : ''}`}>
-                  <circle cx={130} cy={65} r={6} className="node-dot" />
-                  <text x={130} y={35} className="node-label-phase" textAnchor="middle">Phase 01</text>
-                  <text x={130} y={47} className="node-label-city" textAnchor="middle">Core Operations</text>
+                  <circle cx={150} cy={65} r={6} className="node-dot" />
+                  <text x={150} y={35} className="node-label-phase" textAnchor="middle">Phase 01</text>
+                  <text x={150} y={47} className="node-label-city" textAnchor="middle">Core Operations</text>
                 </g>
 
                 {/* Node 2: Market Scale */}
                 <g className={`map-node ${growthProgress >= 30 ? 'active' : ''}`}>
-                  <circle cx={70} cy={185} r={6} className="node-dot" />
-                  <text x={55} y={180} className="node-label-phase" textAnchor="end">Phase 02</text>
-                  <text x={55} y={192} className="node-label-city" textAnchor="end">Market Scale</text>
+                  <circle cx={90} cy={185} r={6} className="node-dot" />
+                  <text x={75} y={180} className="node-label-phase" textAnchor="end">Phase 02</text>
+                  <text x={75} y={192} className="node-label-city" textAnchor="end">Market Scale</text>
                 </g>
 
                 {/* Node 3: New Formats */}
                 <g className={`map-node ${growthProgress >= 65 ? 'active' : ''}`}>
-                  <circle cx={190} cy={310} r={6} className="node-dot" />
-                  <text x={205} y={305} className="node-label-phase" textAnchor="start">Phase 03</text>
-                  <text x={205} y={317} className="node-label-city" textAnchor="start">New Formats</text>
+                  <circle cx={210} cy={310} r={6} className="node-dot" />
+                  <text x={225} y={305} className="node-label-phase" textAnchor="start">Phase 03</text>
+                  <text x={225} y={317} className="node-label-city" textAnchor="start">New Formats</text>
                 </g>
 
                 {/* Node 4: Adjacent Verticals */}
                 <g className={`map-node ${growthProgress >= 93 ? 'active' : ''}`}>
-                  <circle cx={130} cy={435} r={6} className="node-dot" />
-                  <text x={130} y={460} className="node-label-phase" textAnchor="middle">Phase 04</text>
-                  <text x={130} y={472} className="node-label-city" textAnchor="middle">Adjacent Verticals</text>
+                  <circle cx={150} cy={435} r={6} className="node-dot" />
+                  <text x={150} y={460} className="node-label-phase" textAnchor="middle">Phase 04</text>
+                  <text x={150} y={472} className="node-label-city" textAnchor="middle">Adjacent Verticals</text>
                 </g>
               </svg>
             </div>

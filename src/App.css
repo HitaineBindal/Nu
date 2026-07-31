@@ -3294,4 +3294,26 @@ select.form-input {
 .team-editorial-section.active .exec-card:nth-child(3) { transition-delay: 0.3s; }
 .team-editorial-section.active .exec-card:nth-child(4) { transition-delay: 0.4s; }
 
+/* Header contact button hiding on small mobile to prevent text wrapping */
+@media (max-width: 580px) {
+  .header .nav-btn {
+    display: none !important;
+  }
+}
+
+/* Timeline/Roadmap mobile layouts alignment */
+@media (max-width: 768px) {
+  .roadmap-track-container {
+    left: 27px !important;
+    bottom: 268px !important;
+  }
+  .roadmap-step {
+    padding-left: 55px !important;
+    margin-bottom: 30px !important;
+  }
+  .roadmap-dot {
+    left: 15px !important;
+  }
+}
+
 
