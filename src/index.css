@@ -1,0 +1,406 @@
+/* Design System - NU Hotels India */
+
+:root {
+  /* Color Palette (Extracted from finalized logo gold: #a97f38) */
+  --gold-primary: #a97f38;
+  --gold-primary-rgb: 169, 127, 56;
+  --gold-light: #cfa864;
+  --gold-dark: #865f24;
+  
+  /* Backgrounds & Neutrals */
+  --bg-cream: #FAF7F2;
+  --bg-cream-rgb: 250, 247, 242;
+  --bg-charcoal: #0F0E0D;
+  --bg-charcoal-rgb: 15, 14, 13;
+  --bg-white: #FFFFFF;
+  
+  /* Text Colors */
+  --text-dark: #221F1B;
+  --text-light: #FAF7F2;
+  --text-muted: #6E685F;
+  --text-muted-light: #A59E94;
+
+  /* Typography */
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Montserrat', system-ui, -apple-system, sans-serif;
+  
+  /* Box Shadows & Blurs */
+  --shadow-subtle: rgba(17, 16, 14, 0.03) 0 4px 20px 0px;
+  --shadow-premium: rgba(169, 127, 56, 0.08) 0 10px 30px -10px, rgba(17, 16, 14, 0.04) 0 1px 3px;
+  --shadow-hover: rgba(169, 127, 56, 0.15) 0 20px 40px -10px, rgba(17, 16, 14, 0.06) 0 4px 12px;
+  --glass-blur: 16px;
+  
+  /* Animation Timing */
+  --transition-smooth: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --transition-fast: all 0.25s ease;
+  --transition-luxury: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-transform: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Base resets & styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--text-dark);
+  background-color: var(--bg-cream);
+  line-height: 1.6;
+  font-size: 16px;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  line-height: 1.15;
+  color: var(--text-dark);
+}
+
+h1 {
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-cream);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(169, 127, 56, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold-primary);
+}
+
+/* Premium Layout Utilities */
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 20px;
+  }
+}
+
+.section-padding {
+  padding: 80px 0;
+}
+
+@media (max-width: 768px) {
+  .section-padding {
+    padding: 50px 0;
+  }
+}
+
+/* Theme Switching Over Scroll Classes */
+.theme-dark {
+  background-color: var(--bg-charcoal);
+  color: var(--text-light);
+  transition: background-color 0.8s ease, color 0.8s ease;
+}
+
+.theme-dark h1,
+.theme-dark h2,
+.theme-dark h3,
+.theme-dark h4 {
+  color: var(--text-light);
+}
+
+.theme-dark .text-muted {
+  color: var(--text-muted-light);
+}
+
+/* Glassmorphism Styles */
+.glass-nav {
+  background: rgba(250, 247, 242, 0.75);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-bottom: 1px solid rgba(169, 127, 56, 0.08);
+}
+
+.theme-dark .glass-nav {
+  background: rgba(15, 14, 13, 0.75);
+  border-bottom: 1px solid rgba(169, 127, 56, 0.15);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(169, 127, 56, 0.1);
+  box-shadow: var(--shadow-premium);
+  transition: var(--transition-smooth);
+}
+
+.theme-dark .glass-card {
+  background: rgba(26, 24, 22, 0.65);
+  border: 1px solid rgba(169, 127, 56, 0.15);
+}
+
+.glass-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-hover);
+  border-color: rgba(169, 127, 56, 0.3);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 28px;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border-radius: 0;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary {
+  background-color: var(--gold-primary);
+  color: var(--bg-cream);
+  border: 1px solid var(--gold-primary);
+}
+
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: 0.6s;
+}
+
+.btn-primary:hover::after {
+  left: 100%;
+}
+
+.btn-primary:hover {
+  background-color: var(--gold-dark);
+  border-color: var(--gold-dark);
+  box-shadow: 0 10px 20px -10px rgba(169, 127, 56, 0.5);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--text-dark);
+  border: 1px solid rgba(169, 127, 56, 0.4);
+}
+
+.theme-dark .btn-secondary {
+  color: var(--text-light);
+  border-color: rgba(169, 127, 56, 0.6);
+}
+
+.btn-secondary:hover {
+  border-color: var(--gold-primary);
+  background-color: rgba(169, 127, 56, 0.05);
+  transform: translateY(-2px);
+}
+
+.btn-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--gold-primary);
+  padding: 8px 0;
+  position: relative;
+}
+
+.btn-text-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: var(--gold-primary);
+  transition: var(--transition-fast);
+}
+
+.btn-text-link:hover::after {
+  width: 100%;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeInUp 1s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+
+/* Intersection Observer Scroll Reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1s cubic-bezier(0.25, 0.8, 0.25, 1),
+              transform 1s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Parallax scroll animations feature-detection */
+@supports ((animation-timeline: view()) and (animation-range: entry)) {
+  .parallax-bg {
+    animation: parallax-scroll linear both;
+    animation-timeline: view();
+    animation-range: exit -20% entry 120%;
+  }
+
+  @keyframes parallax-scroll {
+    from {
+      transform: translateY(-40px) scale(1.05);
+    }
+    to {
+      transform: translateY(40px) scale(1.05);
+    }
+  }
+}
+
+/* Reduced motion query */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-delay: 0s !important;
+    animation-duration: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0s !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* Premium Form Styling */
+.form-group {
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.theme-dark .form-label {
+  color: var(--text-muted-light);
+}
+
+.form-input {
+  width: 100%;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(169, 127, 56, 0.2);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  transition: var(--transition-fast);
+  border-radius: 0;
+}
+
+.theme-dark .form-input {
+  background: rgba(26, 24, 22, 0.8);
+  border-color: rgba(169, 127, 56, 0.3);
+  color: var(--text-light);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--gold-primary);
+  box-shadow: 0 0 0 3px rgba(169, 127, 56, 0.1);
+  background: var(--bg-white);
+}
+
+.theme-dark .form-input:focus {
+  background: #1C1A18;
+}
+
+/* Elegant line animation on input focus */
+.form-input-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--gold-primary);
+  transition: var(--transition-fast);
+}
+
+.form-input:focus + .form-input-line {
+  width: 100%;
+}
