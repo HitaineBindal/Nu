@@ -681,7 +681,7 @@ function App() {
       window.removeEventListener('resize', handleScrollProgress);
       clearTimeout(timer);
     };
-  }, []);
+  }, [currentPage]);
 
   // Handle header scroll percentage
   useEffect(() => {
@@ -707,7 +707,7 @@ function App() {
       window.removeEventListener('scroll', handleScroll);
       document.body.classList.remove('theme-dark');
     };
-  }, []);
+  }, [currentPage]);
 
   // Intersection Observer for scroll animations
   useEffect(() => {
@@ -724,7 +724,7 @@ function App() {
 
     revealElements.forEach(el => observer.observe(el));
     return () => revealElements.forEach(el => observer.unobserve(el));
-  }, [activeCategory]);
+  }, [activeCategory, currentPage]);
 
   // Promoter trigger actions: Auto-fills form, scrolls down, and flashes target form area
   const handlePromoterAction = (promoterName, actionType) => {
