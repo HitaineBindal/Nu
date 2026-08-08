@@ -361,16 +361,567 @@ function AnimatedCounter({ target, duration = 2000, suffix = "" }) {
   return <span ref={elementRef}>{count}{suffix}</span>;
 }
 
+function PortfolioPage({
+  activeCategory,
+  setActiveCategory,
+  filteredHotels,
+  handleCardMouseMove,
+  handleCardMouseLeave,
+  activeHotelDetail,
+  setActiveHotelDetail,
+  isCaseDrawerOpen,
+  setIsCaseDrawerOpen,
+  growthRef,
+  growthProgress
+}) {
+  return (
+    <div className="subpage-wrapper">
+      <section className="subpage-hero">
+        <div className="container">
+          <span className="hero-subtitle">Our Asset Value</span>
+          <h1 className="subpage-title">Portfolio & Success Stories</h1>
+          <p className="subpage-desc">
+            Explore our curated hotel collections and the proven financial turnaround results of our partner properties.
+          </p>
+        </div>
+      </section>
+
+      {/* The Hotels Collection */}
+      <section id="hotels" className="section-padding" style={{ background: 'transparent' }}>
+        <div className="container">
+          <div className="showcase-header">
+            <span className="hero-subtitle">The Collection</span>
+            <h2>Our Architectural Portfolios</h2>
+            <p>Explore our carefully segmented hospitality brand tiers, running profitably across Chandigarh, Mohali, Ludhiana, and Jammu & Kashmir.</p>
+          </div>
+
+          <div className="showcase-tabs">
+            <button 
+              className={`showcase-tab ${activeCategory === 'all' ? 'active' : ''}`}
+              onClick={() => setActiveCategory('all')}
+            >
+              All Hotels
+            </button>
+            <button 
+              className={`showcase-tab ${activeCategory === 'luxe' ? 'active' : ''}`}
+              onClick={() => setActiveCategory('luxe')}
+            >
+              NU Luxe
+            </button>
+            <button 
+              className={`showcase-tab ${activeCategory === 'axis' ? 'active' : ''}`}
+              onClick={() => setActiveCategory('axis')}
+            >
+              NU Axis
+            </button>
+            <button 
+              className={`showcase-tab ${activeCategory === 'nest' ? 'active' : ''}`}
+              onClick={() => setActiveCategory('nest')}
+            >
+              NU Nest
+            </button>
+          </div>
+
+          <div className="showcase-grid">
+            {filteredHotels.map((hotel) => (
+              <article 
+                key={hotel.id} 
+                className="hotel-card" 
+                style={{ cursor: 'pointer' }}
+                onClick={() => setActiveHotelDetail(hotel)}
+                onMouseMove={handleCardMouseMove}
+                onMouseLeave={handleCardMouseLeave}
+              >
+                <div className="hotel-card-inner">
+                  <div className="card-border-shine"></div>
+                  <div className="card-glare"></div>
+                  <div className="hotel-img-wrapper">
+                    <img 
+                      src={hotel.image} 
+                      alt={hotel.name} 
+                      className="hotel-img" 
+                      style={{ objectPosition: hotel.objectPosition || 'center' }}
+                    />
+                    <span className="hotel-tag">{hotel.tag}</span>
+                  </div>
+                  <div className="hotel-content-box">
+                    <h3 className="hotel-name">{hotel.name}</h3>
+                    <div className="hotel-location">
+                      <MapPin size={14} style={{ color: 'var(--gold-primary)', marginRight: '6px', display: 'inline' }} />
+                      <span>{hotel.location}</span>
+                    </div>
+                    <div className="hotel-features">
+                      {hotel.features.map((f, i) => (
+                        <span key={i} className="hotel-feature">
+                          <Check size={12} style={{ color: 'var(--gold-primary)', marginRight: '4px' }} />
+                          {f}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Case Study Section */}
+      <section id="case" className="section-padding" style={{ borderTop: '1px solid rgba(169, 127, 56, 0.12)' }}>
+        <div className="container">
+          <div className="showcase-header" style={{ marginBottom: '50px' }}>
+            <span className="hero-subtitle">Success Story</span>
+            <h2>Proven Turnaround Results</h2>
+            <p>Our operational framework in action. Click to reveal detailed operational milestones.</p>
+          </div>
+
+          <div className="glass-card case-study-card">
+            <div className="case-study-card-inner">
+              <div className="case-info">
+                <span className="case-meta">Case Study • Performance Turnaround</span>
+                <h3 className="case-title">NU Tamarind Tree</h3>
+                <span className="hero-subtitle" style={{ fontSize: '0.75rem', marginBottom: '24px', display: 'block' }}>25-Key Boutique Hotel</span>
+                
+                <p className="case-narrative">
+                  Prior to our transition, the boutique property struggled with low occupancy, high dependency on OTA channels, and operational friction. By deploying our centralized sales network, integrating Vite PMS/CRS dynamic rate management, and retraining staff with our signature <span className="highlight-gold">"Sewak"</span> hospitality program, we unlocked high efficiency and turned the asset profitable in under 60 days.
+                </p>
+
+                <button 
+                  className="btn btn-primary case-cta" 
+                  onClick={() => setIsCaseDrawerOpen(true)}
+                  style={{ marginTop: '30px', alignSelf: 'flex-start' }}
+                >
+                  View Operational Logs
+                </button>
+              </div>
+
+              <div className="case-metrics-grid">
+                <div className="grid-metric-item">
+                  <span className="grid-metric-sub">Financial Lift</span>
+                  <div className="grid-metric-val">+42.0%</div>
+                  <span className="grid-metric-lbl">RevPAR Growth</span>
+                </div>
+
+                <div className="grid-metric-item">
+                  <span className="grid-metric-sub">Marketing Reach</span>
+                  <div className="grid-metric-val">+56.0%</div>
+                  <span className="grid-metric-lbl">Direct Bookings</span>
+                </div>
+
+                <div className="grid-metric-item">
+                  <span className="grid-metric-sub">Owner Profitability</span>
+                  <div className="grid-metric-val">+480 bps</div>
+                  <span className="grid-metric-lbl">GOP Margin Expansion</span>
+                </div>
+
+                <div className="grid-metric-item">
+                  <span className="grid-metric-sub">Execution Window</span>
+                  <div className="grid-metric-val">60 Days</div>
+                  <span className="grid-metric-lbl">Onboarding Duration</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Growth Strategy */}
+      <section id="growth" className="section-padding" style={{ borderTop: '1px solid rgba(169, 127, 56, 0.12)' }}>
+        <div className="container">
+          <div className="showcase-header" style={{ marginBottom: '60px' }}>
+            <span className="hero-subtitle">Growth Strategy</span>
+            <h2>Phased Path to Scale</h2>
+            <p>Our long-term roadmap to expand our portfolio and secure market leadership.</p>
+          </div>
+
+          <div ref={growthRef} className="growth-dashboard">
+            <div className="growth-map-col">
+              <svg className="constellation-svg" viewBox="0 0 300 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path 
+                  d="M 150 65 L 90 185 L 210 310 L 150 435" 
+                  stroke="rgba(169, 127, 56, 0.12)" 
+                  strokeWidth="2" 
+                  strokeDasharray="4 4" 
+                />
+                
+                <path 
+                  d="M 150 65 L 90 185 L 210 310 L 150 435" 
+                  stroke="var(--gold-primary)" 
+                  strokeWidth="2" 
+                  strokeDasharray="450" 
+                  style={{
+                    strokeDashoffset: 450 - (growthProgress / 100) * 450,
+                    transition: 'stroke-dashoffset 0.1s linear'
+                  }}
+                />
+
+                <g className={`map-node ${growthProgress >= 0 ? 'active' : ''}`}>
+                  <circle cx={150} cy={65} r={6} className="node-dot" />
+                  <text x={150} y={35} className="node-label-phase" textAnchor="middle">Phase 01</text>
+                  <text x={150} y={47} className="node-label-city" textAnchor="middle">Core Operations</text>
+                </g>
+
+                <g className={`map-node ${growthProgress >= 30 ? 'active' : ''}`}>
+                  <circle cx={90} cy={185} r={6} className="node-dot" />
+                  <text x={75} y={180} className="node-label-phase" textAnchor="end">Phase 02</text>
+                  <text x={75} y={192} className="node-label-city" textAnchor="end">Market Scale</text>
+                </g>
+
+                <g className={`map-node ${growthProgress >= 65 ? 'active' : ''}`}>
+                  <circle cx={210} cy={310} r={6} className="node-dot" />
+                  <text x={225} y={305} className="node-label-phase" textAnchor="start">Phase 03</text>
+                  <text x={225} y={317} className="node-label-city" textAnchor="start">New Formats</text>
+                </g>
+
+                <g className={`map-node ${growthProgress >= 93 ? 'active' : ''}`}>
+                  <circle cx={150} cy={435} r={6} className="node-dot" />
+                  <text x={150} y={460} className="node-label-phase" textAnchor="middle">Phase 04</text>
+                  <text x={150} y={472} className="node-label-city" textAnchor="middle">Adjacent Verticals</text>
+                </g>
+              </svg>
+            </div>
+
+            <div className="growth-cards-col">
+              {GROWTH_STRATEGY.map((st, idx) => {
+                const isStepActive = 
+                  (idx === 0 && growthProgress >= 0) ||
+                  (idx === 1 && growthProgress >= 30) ||
+                  (idx === 2 && growthProgress >= 65) ||
+                  (idx === 3 && growthProgress >= 93);
+
+                return (
+                  <div key={idx} className={`growth-step-card ${isStepActive ? 'active' : ''}`}>
+                    <div className="growth-mist-overlay">
+                      <div className="mist-cloud-particle"></div>
+                    </div>
+                    <div className="growth-card-content">
+                      <span className="growth-num">{st.num} • Strategy Phase</span>
+                      <h3 className="growth-title">{st.title}</h3>
+                      <p className="growth-desc">{st.desc}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function OperationsPage({
+  activeService,
+  setActiveService,
+  timelineRef,
+  timelineProgress
+}) {
+  return (
+    <div className="subpage-wrapper">
+      <section className="subpage-hero">
+        <div className="container">
+          <span className="hero-subtitle">Capabilities & Roadmap</span>
+          <h1 className="subpage-title">Operations & Transition</h1>
+          <p className="subpage-desc">
+            Explore our state-of-the-art hotel management systems and our structured zero-downtime transition roadmap.
+          </p>
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <section id="services" className="section-padding" style={{ background: 'transparent' }}>
+        <div className="container">
+          <div className="showcase-header" style={{ marginBottom: '80px' }}>
+            <span className="hero-subtitle">Our Capabilities</span>
+            <h2>The NU Management Engine</h2>
+            <p>We combine your physical assets with our operational power to secure market leadership and RevPAR growth.</p>
+          </div>
+
+          <div className="services-grid">
+            <div className="services-accordion">
+              {SERVICES_DATA.map((srv) => (
+                <div 
+                  key={srv.id} 
+                  className={`service-item ${activeService === srv.id ? 'active' : ''}`}
+                >
+                  <button 
+                    className="service-trigger"
+                    onClick={() => setActiveService(srv.id)}
+                  >
+                    <span>{srv.title}</span>
+                    <ChevronDown 
+                      size={20} 
+                      style={{ 
+                        transform: activeService === srv.id ? 'rotate(180deg)' : 'rotate(0)',
+                        transition: 'transform 0.3s ease'
+                      }} 
+                    />
+                  </button>
+                  <div className="service-content">
+                    <p>{srv.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="services-visual-panel">
+              {SERVICES_DATA.map((srv) => (
+                <img 
+                  key={srv.id}
+                  src={srv.image} 
+                  alt={srv.title} 
+                  className={`services-panel-img ${activeService === srv.id ? 'active' : ''}`}
+                />
+              ))}
+              <div className="services-panel-overlay"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Onboarding Roadmap */}
+      <section id="roadmap" className="section-padding" style={{ borderTop: '1px solid rgba(169, 127, 56, 0.12)' }}>
+        <div className="container">
+          <div className="showcase-header">
+            <span className="hero-subtitle">Asset Onboarding</span>
+            <h2>Roadmap to Transition</h2>
+            <p>A seamless roadmap engineered to re-position and integrate your hotel asset into our operations with zero downtime.</p>
+          </div>
+
+          <div ref={timelineRef} className="roadmap-timeline">
+            <div className="roadmap-track-container">
+              <div className="roadmap-progress-line" style={{ height: `${timelineProgress}%` }}></div>
+            </div>
+            {ROADMAP_DATA.map((step, idx) => {
+              const isStepActive = 
+                (idx === 0 && timelineProgress >= 2) ||
+                (idx === 1 && timelineProgress >= 30) ||
+                (idx === 2 && timelineProgress >= 60) ||
+                (idx === 3 && timelineProgress >= 93);
+
+              return (
+                <div key={idx} className="roadmap-step">
+                  <div className={`roadmap-dot ${isStepActive ? 'active' : ''}`}>
+                    {idx + 1}
+                  </div>
+                  <div className={`roadmap-connector ${isStepActive ? 'active' : ''}`}></div>
+                  <div className={`glass-card roadmap-card ${isStepActive ? 'active' : ''}`}>
+                    <div className="roadmap-badges">
+                      <span className="roadmap-badge phase">{step.phase}</span>
+                      <span className="roadmap-badge timeline">{step.timeline}</span>
+                    </div>
+                    <h3 className="roadmap-title">{step.title}</h3>
+                    <ul className="roadmap-bullets">
+                      {step.bullets.map((bullet, i) => (
+                        <li key={i} className="roadmap-bullet-item">
+                          <span className="roadmap-bullet-marker">◆</span>
+                          <span className="roadmap-bullet-text">{bullet}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function BoardPage({
+  activePromoter,
+  setActivePromoter
+}) {
+  return (
+    <div className="subpage-wrapper">
+      <section className="subpage-hero">
+        <div className="container">
+          <span className="hero-subtitle">Executive Team</span>
+          <h1 className="subpage-title">Leadership & Governance</h1>
+          <p className="subpage-desc">
+            Decades of combined experience in hospitality operations, franchise alignment, and yield optimization.
+          </p>
+        </div>
+      </section>
+
+      {/* Editorial Team Section */}
+      <section className="team-editorial-section" style={{ background: 'transparent', padding: '60px 0' }}>
+        <div className="container">
+          <div className="team-split-grid">
+            <div className="team-photo-frame" style={{
+              position: 'relative',
+              borderRadius: '8px',
+              overflow: 'hidden',
+              boxShadow: '0 20px 40px rgba(22, 17, 12, 0.15)',
+              border: '1px solid rgba(169, 127, 56, 0.2)',
+              height: '520px'
+            }}>
+              <img 
+                src="/owners/hospitality_team.webp" 
+                alt="NU Hotels Executive Leadership Board" 
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)'
+                }}
+                className="team-main-photo"
+              />
+              <div style={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                background: 'linear-gradient(to top, rgba(22, 17, 12, 0.85) 0%, rgba(22, 17, 12, 0) 100%)',
+                padding: '24px',
+                color: '#fff',
+                zIndex: 2
+              }}>
+                <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--gold-primary)', fontWeight: '600' }}>Executive Group</span>
+                <h4 style={{ color: '#fff', margin: '4px 0 0', fontSize: '1.1rem', fontWeight: '500' }}>The Custodians of the Brand</h4>
+              </div>
+            </div>
+
+            <div className="team-content-col" style={{ display: 'flex', flexDirection: 'column' }}>
+              <div className="showcase-header" style={{ margin: '0 0 35px 0', textAlign: 'left' }}>
+                <span className="hero-subtitle" style={{ color: 'var(--gold-primary)', display: 'block', marginBottom: '8px' }}>Our Leadership</span>
+                <h2 style={{ color: 'var(--text-dark)', fontSize: '2.2rem', marginBottom: '15px', lineHeight: '1.2' }}>The Executive Board</h2>
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: '1.6' }}>
+                  An elite advisory group aligning operational protocols, brand audits, and yield monetization technology to guarantee risk-mitigated returns across all segments.
+                </p>
+              </div>
+
+              <div className="team-exec-grid" style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(2, 1fr)',
+                gap: '20px'
+              }}>
+                <div className="exec-card glass-card" style={{
+                  background: 'rgba(255, 255, 255, 0.65)',
+                  border: '1px solid rgba(169, 127, 56, 0.15)',
+                  borderRadius: '4px',
+                  padding: '20px',
+                  textAlign: 'left',
+                  transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+                }}>
+                  <h4 style={{ color: 'var(--text-dark)', fontSize: '1rem', marginBottom: '4px', fontWeight: '600' }}>Rajesh Nair</h4>
+                  <span style={{ color: 'var(--gold-primary)', fontSize: '0.75rem', display: 'block', marginBottom: '12px', fontWeight: '600' }}>President & CEO</span>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.75rem', lineHeight: '1.4' }}>
+                    Directs corporate growth strategy and asset management policies across our tier segments.
+                  </p>
+                </div>
+
+                <div className="exec-card glass-card" style={{
+                  background: 'rgba(255, 255, 255, 0.65)',
+                  border: '1px solid rgba(169, 127, 56, 0.15)',
+                  borderRadius: '4px',
+                  padding: '20px',
+                  textAlign: 'left',
+                  transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+                }}>
+                  <h4 style={{ color: 'var(--text-dark)', fontSize: '1rem', marginBottom: '4px', fontWeight: '600' }}>Priya Sen</h4>
+                  <span style={{ color: 'var(--gold-primary)', fontSize: '0.75rem', display: 'block', marginBottom: '12px', fontWeight: '600' }}>Chief Operating Officer</span>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.75rem', lineHeight: '1.4' }}>
+                    Leads on-ground property operations, procurement networks, and service delivery audits.
+                  </p>
+                </div>
+
+                <div className="exec-card glass-card" style={{
+                  background: 'rgba(255, 255, 255, 0.65)',
+                  border: '1px solid rgba(169, 127, 56, 0.15)',
+                  borderRadius: '4px',
+                  padding: '20px',
+                  textAlign: 'left',
+                  transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+                }}>
+                  <h4 style={{ color: 'var(--text-dark)', fontSize: '1rem', marginBottom: '4px', fontWeight: '600' }}>Karan Kapoor</h4>
+                  <span style={{ color: 'var(--gold-primary)', fontSize: '0.75rem', display: 'block', marginBottom: '12px', fontWeight: '600' }}>VP, Yield & Technology</span>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.75rem', lineHeight: '1.4' }}>
+                    Drives dynamic pricing algorithms, CRS integrations, and OTA channel optimization.
+                  </p>
+                </div>
+
+                <div className="exec-card glass-card" style={{
+                  background: 'rgba(255, 255, 255, 0.65)',
+                  border: '1px solid rgba(169, 127, 56, 0.15)',
+                  borderRadius: '4px',
+                  padding: '20px',
+                  textAlign: 'left',
+                  transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+                }}>
+                  <h4 style={{ color: 'var(--text-dark)', fontSize: '1rem', marginBottom: '4px', fontWeight: '600' }}>Anjali Sharma</h4>
+                  <span style={{ color: 'var(--gold-primary)', fontSize: '0.75rem', display: 'block', marginBottom: '12px', fontWeight: '600' }}>Director, Guest Standards</span>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.75rem', lineHeight: '1.4' }}>
+                    Directs the "Sewak" training framework and ensures guest experience compliance.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Sewak Program Details */}
+      <section className="section-padding" style={{ borderTop: '1px solid rgba(169, 127, 56, 0.12)' }}>
+        <div className="container">
+          <div className="showcase-header" style={{ marginBottom: '60px' }}>
+            <span className="hero-subtitle">Hospitality Excellence</span>
+            <h2>Our Signature "Sewak" Program</h2>
+            <p>A structured approach to guest service that translates employee training into high repeat bookings and asset ratings.</p>
+          </div>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: '24px'
+          }} className="sewak-details-grid">
+            <div className="glass-card" style={{ padding: '30px', textAlign: 'center' }}>
+              <Users size={32} style={{ color: 'var(--gold-primary)', marginBottom: '16px', display: 'inline-block' }} />
+              <h3 style={{ fontSize: '1.15rem', color: 'var(--text-dark)', marginBottom: '12px' }}>Recruitment Standards</h3>
+              <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', lineHeight: '1.6' }}>
+                We recruit talent directly from accredited hotel management institutes, running strict aptitude and soft-skills screening.
+              </p>
+            </div>
+
+            <div className="glass-card" style={{ padding: '30px', textAlign: 'center' }}>
+              <Award size={32} style={{ color: 'var(--gold-primary)', marginBottom: '16px', display: 'inline-block' }} />
+              <h3 style={{ fontSize: '1.15rem', color: 'var(--text-dark)', marginBottom: '12px' }}>Intensive On-Ground Training</h3>
+              <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', lineHeight: '1.6' }}>
+                All staff undergo a rigorous 30-day pre-launch simulation focused on localized guest empathy, technical systems, and brand standards.
+              </p>
+            </div>
+
+            <div className="glass-card" style={{ padding: '30px', textAlign: 'center' }}>
+              <TrendingUp size={32} style={{ color: 'var(--gold-primary)', marginBottom: '16px', display: 'inline-block' }} />
+              <h3 style={{ fontSize: '1.15rem', color: 'var(--text-dark)', marginBottom: '12px' }}>Retention & Progression</h3>
+              <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', lineHeight: '1.6' }}>
+                Clear operational reward paths aligned directly with customer ratings ensure high employee morale and retention.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
 function App() {
+  const [currentPage, setCurrentPage] = useState("home");
   const [activeCategory, setActiveCategory] = useState("all");
   const [heroPos, setHeroPos] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    setMobileMenuOpen(false);
+  }, [currentPage]);
   const [activeService, setActiveService] = useState("revenue");
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState("home");
 
   // Scroll Progress state
   const [scrollPercent, setScrollPercent] = useState(0);
@@ -681,7 +1232,7 @@ function App() {
       window.removeEventListener('resize', handleScrollProgress);
       clearTimeout(timer);
     };
-  }, [currentPage]);
+  }, []);
 
   // Handle header scroll percentage
   useEffect(() => {
@@ -707,7 +1258,7 @@ function App() {
       window.removeEventListener('scroll', handleScroll);
       document.body.classList.remove('theme-dark');
     };
-  }, [currentPage]);
+  }, []);
 
   // Intersection Observer for scroll animations
   useEffect(() => {
@@ -724,7 +1275,7 @@ function App() {
 
     revealElements.forEach(el => observer.observe(el));
     return () => revealElements.forEach(el => observer.unobserve(el));
-  }, [activeCategory, currentPage]);
+  }, [activeCategory]);
 
   // Promoter trigger actions: Auto-fills form, scrolls down, and flashes target form area
   const handlePromoterAction = (promoterName, actionType) => {
@@ -781,15 +1332,7 @@ function App() {
       {/* Header Navigation */}
       <header className={`header ${isScrolled ? 'glass-nav scaff-scrolled' : ''}`}>
         <div className="container">
-          <a 
-            href="#" 
-            className="logo-container"
-            onClick={(e) => {
-              e.preventDefault();
-              setCurrentPage("home");
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-          >
+          <a href="#" className="logo-container" onClick={(e) => { e.preventDefault(); setCurrentPage('home'); }}>
             <img src="/logo.webp" alt="NU Hotels Logo" className="logo-img" />
             <span className="logo-text">NU Hotels</span>
           </a>
@@ -797,45 +1340,48 @@ function App() {
           <ul className="nav-links">
             <li>
               <button 
-                onClick={() => {
-                  setCurrentPage("home");
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }} 
-                className={`nav-link-btn ${currentPage === "home" ? "active" : ""}`}
+                onClick={() => setCurrentPage('home')} 
+                className={`nav-link-btn ${currentPage === 'home' ? 'active' : ''}`}
+                style={{ background: 'none', border: 'none', cursor: 'pointer' }}
               >
-                Proposal
+                Home
               </button>
             </li>
             <li>
               <button 
-                onClick={() => {
-                  setCurrentPage("operations");
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }} 
-                className={`nav-link-btn ${currentPage === "operations" ? "active" : ""}`}
+                onClick={() => setCurrentPage('portfolio')} 
+                className={`nav-link-btn ${currentPage === 'portfolio' ? 'active' : ''}`}
+                style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+              >
+                Portfolio
+              </button>
+            </li>
+            <li>
+              <button 
+                onClick={() => setCurrentPage('operations')} 
+                className={`nav-link-btn ${currentPage === 'operations' ? 'active' : ''}`}
+                style={{ background: 'none', border: 'none', cursor: 'pointer' }}
               >
                 Operations
               </button>
             </li>
             <li>
               <button 
-                onClick={() => {
-                  setCurrentPage("portfolio");
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }} 
-                className={`nav-link-btn ${currentPage === "portfolio" ? "active" : ""}`}
+                onClick={() => setCurrentPage('board')} 
+                className={`nav-link-btn ${currentPage === 'board' ? 'active' : ''}`}
+                style={{ background: 'none', border: 'none', cursor: 'pointer' }}
               >
-                Portfolio
+                Leadership
               </button>
             </li>
           </ul>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             <button 
-              className="btn btn-primary magnetic-btn nav-btn" 
+              className="btn btn-primary magnetic-btn" 
               style={{ padding: '10px 20px', fontSize: '0.75rem' }}
               onClick={() => {
-                setCurrentPage("home");
+                setCurrentPage('home');
                 setTimeout(() => {
                   const partnerSection = document.getElementById('partner');
                   if (partnerSection) {
@@ -877,37 +1423,42 @@ function App() {
             className="glass-card"
           >
             <button 
-              className={`nav-link-btn ${currentPage === "home" ? "active" : ""}`} 
-              onClick={() => { setCurrentPage("home"); setMobileMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-              style={{ textAlign: 'left', width: '100%' }}
+              className="nav-link-btn" 
+              style={{ background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer' }}
+              onClick={() => { setCurrentPage('home'); setMobileMenuOpen(false); }}
             >
-              Proposal
+              Home
             </button>
             <button 
-              className={`nav-link-btn ${currentPage === "operations" ? "active" : ""}`} 
-              onClick={() => { setCurrentPage("operations"); setMobileMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-              style={{ textAlign: 'left', width: '100%' }}
+              className="nav-link-btn" 
+              style={{ background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer' }}
+              onClick={() => { setCurrentPage('portfolio'); setMobileMenuOpen(false); }}
+            >
+              Portfolio
+            </button>
+            <button 
+              className="nav-link-btn" 
+              style={{ background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer' }}
+              onClick={() => { setCurrentPage('operations'); setMobileMenuOpen(false); }}
             >
               Operations
             </button>
             <button 
-              className={`nav-link-btn ${currentPage === "portfolio" ? "active" : ""}`} 
-              onClick={() => { setCurrentPage("portfolio"); setMobileMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-              style={{ textAlign: 'left', width: '100%' }}
+              className="nav-link-btn" 
+              style={{ background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer' }}
+              onClick={() => { setCurrentPage('board'); setMobileMenuOpen(false); }}
             >
-              Portfolio
+              Leadership
             </button>
           </div>
         )}
       </header>
 
-
-
       {currentPage === 'home' && (
-        <div className="page-transition-fade">
-      {/* Hero Section */}
-      <section 
-        className="hero-section"
+        <>
+          {/* Hero Section */}
+          <section 
+            className="hero-section"
         onMouseMove={handleHeroMouseMove}
         onMouseLeave={handleHeroMouseLeave}
       >
@@ -922,37 +1473,29 @@ function App() {
             <div className="hero-content">
               <span className="hero-subtitle">NU Hotels India</span>
               <h1 className="hero-title">
-                Partnering for <br />
-                <span>Profitability & Growth</span>
+                Unlocking the True <br />
+                <span>Potential of Your Asset</span>
               </h1>
               <p className="hero-desc">
-                An established, promoter-led hotel management and operating company with a revenue-generating portfolio of 10+ properties across Chandigarh, Punjab, and Jammu & Kashmir. Combining 50+ years of hands-on leadership with disciplined sales-driven operations.
+                Strategic hotel management and operating solutions engineered to elevate performance, protect asset value, and maximize bottom-line profitability. Combining 50+ years of hands-on leadership with disciplined sales-driven operations.
               </p>
               <div className="hero-cta-group">
-                <button 
-                  onClick={() => {
-                    const partnerSection = document.getElementById('partner');
-                    if (partnerSection) {
-                      partnerSection.scrollIntoView({ behavior: 'smooth' });
-                    }
-                  }}
+                <a 
+                  href="#partner" 
                   className="btn btn-primary magnetic-btn"
                   onMouseMove={handleMagneticMove}
                   onMouseLeave={handleMagneticLeave}
                 >
                   Become a Partner
-                </button>
-                <button 
-                  onClick={() => {
-                    setCurrentPage("portfolio");
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
+                </a>
+                <a 
+                  href="#hotels" 
                   className="btn btn-secondary magnetic-btn"
                   onMouseMove={handleMagneticMove}
                   onMouseLeave={handleMagneticLeave}
                 >
                   Explore Portfolio
-                </button>
+                </a>
               </div>
             </div>
 
@@ -978,7 +1521,6 @@ function App() {
           <span>Scroll to Discover</span>
         </div>
       </section>
-
 
       {/* Highlights Bar */}
       <section className="stats-section">
@@ -1012,7 +1554,6 @@ function App() {
         </div>
       </section>
 
-
       {/* Promoters & Legacy Section */}
       <section id="about" className="about-section section-padding reveal">
         <div className="container">
@@ -1020,19 +1561,13 @@ function App() {
             <div className="about-text">
               <div className="about-header">
                 <span className="hero-subtitle" style={{ marginBottom: '10px' }}>Who We Are</span>
-                <h2>A Promoter-Operated Hospitality Platform</h2>
+                <h2>Your Vision, Our Expertise</h2>
               </div>
-              <p className="about-desc-large" style={{ color: 'var(--gold-primary)', fontStyle: 'italic', borderLeft: '3px solid var(--gold-primary)', paddingLeft: '16px', marginBottom: '24px' }}>
-                "We don't just manage hotels—we elevate performance, protect asset value, and maximize bottom-line profitability."
-              </p>
-              <p className="about-desc-detail" style={{ marginBottom: '16px' }}>
-                <strong>Who We Are:</strong> NU Hotels is a leading hotel management company with a proven track record in driving operational excellence and market penetration across Chandigarh, Punjab, Haryana, and Jammu & Kashmir.
-              </p>
-              <p className="about-desc-detail" style={{ marginBottom: '16px' }}>
-                <strong>Our Mission:</strong> To turn hotel properties into high-yield financial assets through tailored management, strong distribution networks, and guest-centric service.
+              <p className="about-desc-large">
+                We don't just manage hotels—we elevate performance, protect asset value, and maximize bottom-line profitability.
               </p>
               <p className="about-desc-detail">
-                <strong>The Partnership Goal:</strong> Combine your physical asset with our operational engine to achieve market leadership in your location, backed by our promoters' 50+ years of hands-on leadership.
+                NU Hotels India is a leading hotel management company with a proven track record. Our mission is to turn hotel properties into high-yield financial assets through tailored management, strong distribution networks, and guest-centric service. By combining your physical asset with our operational engine, we achieve market leadership in your location.
               </p>
             </div>
 
@@ -1047,45 +1582,8 @@ function App() {
           </div>
         </div>
       </section>
-
-      {/* Why Partner With Us Section (Slide 4) */}
-      <section className="strengths-section reveal" style={{ padding: '80px 0', borderTop: '1px solid rgba(169, 127, 56, 0.12)', backgroundColor: 'rgba(255, 255, 255, 0.02)' }}>
-        <div className="container">
-          <div className="showcase-header" style={{ marginBottom: '60px' }}>
-            <span className="hero-subtitle">B2B Advantages</span>
-            <h2>Why Partner With Us?</h2>
-            <p>Core strengths that set NU Hotels India apart and protect your investment.</p>
-          </div>
-          <div className="strengths-grid">
-            <div className="strength-item glass-card" style={{ padding: '30px', borderTop: '3px solid var(--gold-primary)' }}>
-              <h3 style={{ fontSize: '1.2rem', marginBottom: '12px', color: 'var(--text-dark)' }}>Owner-Centric Philosophy</h3>
-              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: '1.6', margin: 0 }}>
-                We view the relationship as a true partnership, aligning our fees and incentives with your gross operating profit (GOP).
-              </p>
-            </div>
-            <div className="strength-item glass-card" style={{ padding: '30px', borderTop: '3px solid var(--gold-primary)' }}>
-              <h3 style={{ fontSize: '1.2rem', marginBottom: '12px', color: 'var(--text-dark)' }}>Powerful Distribution Engine</h3>
-              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: '1.6', margin: 0 }}>
-                Reduced dependency on third-party OTAs through direct booking channels, corporate contracts, and a loyal customer base.
-              </p>
-            </div>
-            <div className="strength-item glass-card" style={{ padding: '30px', borderTop: '3px solid var(--gold-primary)' }}>
-              <h3 style={{ fontSize: '1.2rem', marginBottom: '12px', color: 'var(--text-dark)' }}>Advanced Technology Stack</h3>
-              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: '1.6', margin: 0 }}>
-                Integrated PMS, CRS, and AI-driven Revenue Management tools to dynamically optimize ADR and RevPAR.
-              </p>
-            </div>
-            <div className="strength-item glass-card" style={{ padding: '30px', borderTop: '3px solid var(--gold-primary)' }}>
-              <h3 style={{ fontSize: '1.2rem', marginBottom: '12px', color: 'var(--text-dark)' }}>Economies of Scale</h3>
-              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: '1.6', margin: 0 }}>
-                Lower operational costs through centralized procurement and vendor relationships.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Editorial Team Section */}
+        
+        {/* Editorial Team Section */}
         <section className="team-editorial-section reveal">
           <div className="container">
             <div className="team-split-grid">
@@ -1208,6 +1706,337 @@ function App() {
           </div>
         </section>
 
+      {/* The Hotels Collection */}
+      <section id="hotels" className="section-padding reveal" style={{ borderTop: '1px solid rgba(169, 127, 56, 0.12)' }}>
+        <div className="container">
+          <div className="showcase-header">
+            <span className="hero-subtitle">The Collection</span>
+            <h2>Our Architectural Portfolios</h2>
+            <p>Explore our carefully segmented hospitality brand tiers, running profitably across Chandigarh, Mohali, Ludhiana, and Jammu & Kashmir.</p>
+          </div>
+
+          <div className="showcase-tabs">
+            <button 
+              className={`showcase-tab ${activeCategory === 'all' ? 'active' : ''}`}
+              onClick={() => setActiveCategory('all')}
+            >
+              All Hotels
+            </button>
+            <button 
+              className={`showcase-tab ${activeCategory === 'luxe' ? 'active' : ''}`}
+              onClick={() => setActiveCategory('luxe')}
+            >
+              NU Luxe
+            </button>
+            <button 
+              className={`showcase-tab ${activeCategory === 'axis' ? 'active' : ''}`}
+              onClick={() => setActiveCategory('axis')}
+            >
+              NU Axis
+            </button>
+            <button 
+              className={`showcase-tab ${activeCategory === 'nest' ? 'active' : ''}`}
+              onClick={() => setActiveCategory('nest')}
+            >
+              NU Nest
+            </button>
+          </div>
+
+          <div className="showcase-grid">
+            {filteredHotels.map((hotel) => (
+              <article 
+                key={hotel.id} 
+                className="hotel-card" 
+                style={{ cursor: 'pointer' }}
+                onClick={() => setActiveHotelDetail(hotel)}
+                onMouseMove={handleCardMouseMove}
+                onMouseLeave={handleCardMouseLeave}
+              >
+                <div className="hotel-card-inner">
+                  <div className="card-border-shine"></div>
+                  <div className="card-glare"></div>
+                  <div className="hotel-img-wrapper">
+                    <img 
+                      src={hotel.image} 
+                      alt={hotel.name} 
+                      className="hotel-img" 
+                      style={{ objectPosition: hotel.objectPosition || 'center' }}
+                    />
+                    <span className="hotel-tag">{hotel.tag}</span>
+                  </div>
+                  <div className="hotel-content-box">
+                    <h3 className="hotel-name">{hotel.name}</h3>
+                    <div className="hotel-location">
+                      <MapPin size={14} className="footer-contact-icon" style={{ marginTop: 0 }} />
+                      <span>{hotel.location}</span>
+                    </div>
+                    <div className="hotel-features">
+                      {hotel.features.map((f, i) => (
+                        <span key={i} className="hotel-feature">
+                          <Check size={12} style={{ color: 'var(--gold-primary)' }} />
+                          {f}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Onboarding Roadmap */}
+      <section id="roadmap" className="section-padding reveal" style={{ borderTop: '1px solid rgba(169, 127, 56, 0.12)' }}>
+        <div className="container">
+          <div className="showcase-header">
+            <span className="hero-subtitle">Asset Onboarding</span>
+            <h2>Roadmap to Transition</h2>
+            <p>A seamless roadmap engineered to re-position and integrate your hotel asset into our operations with zero downtime.</p>
+          </div>
+
+          <div ref={timelineRef} className="roadmap-timeline">
+            {/* Scroll-driven progressive timeline progress overlay line */}
+            <div className="roadmap-track-container">
+              <div className="roadmap-progress-line" style={{ height: `${timelineProgress}%` }}></div>
+            </div>
+            {ROADMAP_DATA.map((step, idx) => {
+              // Synchronize dot/card activation directly with the gold line progression height
+              const isStepActive = 
+                (idx === 0 && timelineProgress >= 2) ||
+                (idx === 1 && timelineProgress >= 30) ||
+                (idx === 2 && timelineProgress >= 60) ||
+                (idx === 3 && timelineProgress >= 93);
+
+              return (
+                <div key={idx} className="roadmap-step">
+                  <div className={`roadmap-dot ${isStepActive ? 'active' : ''}`}>
+                    {idx + 1}
+                  </div>
+                  <div className={`roadmap-connector ${isStepActive ? 'active' : ''}`}></div>
+                  <div className={`glass-card roadmap-card ${isStepActive ? 'active' : ''}`}>
+                    <div className="roadmap-badges">
+                      <span className="roadmap-badge phase">{step.phase}</span>
+                      <span className="roadmap-badge timeline">{step.timeline}</span>
+                    </div>
+                    <h3 className="roadmap-title">{step.title}</h3>
+                    <ul className="roadmap-bullets">
+                      {step.bullets.map((bullet, i) => (
+                        <li key={i} className="roadmap-bullet-item">
+                          <span className="roadmap-bullet-marker">◆</span>
+                          <span className="roadmap-bullet-text">{bullet}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Case Study Section */}
+      <section id="case" className="section-padding reveal" style={{ borderTop: '1px solid rgba(169, 127, 56, 0.12)' }}>
+        <div className="container">
+          <div className="showcase-header" style={{ marginBottom: '50px' }}>
+            <span className="hero-subtitle">Success Story</span>
+            <h2>Proven Turnaround Results</h2>
+            <p>Our operational framework in action. Click to reveal detailed operational milestones.</p>
+          </div>
+
+          <div className="glass-card case-study-card">
+            <div className="case-study-card-inner">
+              <div className="case-info">
+                <span className="case-meta">Case Study • Performance Turnaround</span>
+                <h3 className="case-title">NU Tamarind Tree</h3>
+                <span className="hero-subtitle" style={{ fontSize: '0.75rem', marginBottom: '24px', display: 'block' }}>25-Key Boutique Hotel</span>
+                
+                <p className="case-narrative">
+                  Prior to our transition, the boutique property struggled with low occupancy, high dependency on OTA channels, and operational friction. By deploying our centralized sales network, integrating Vite PMS/CRS dynamic rate management, and retraining staff with our signature <span className="highlight-gold">"Sewak"</span> hospitality program, we unlocked high efficiency and turned the asset profitable in under 60 days.
+                </p>
+
+                <button 
+                  className="btn btn-primary case-cta" 
+                  onClick={() => setIsCaseDrawerOpen(true)}
+                  style={{ marginTop: '30px', alignSelf: 'flex-start' }}
+                >
+                  View Operational Logs
+                </button>
+              </div>
+
+              <div className="case-metrics-grid">
+                <div className="grid-metric-item">
+                  <span className="grid-metric-sub">Financial Lift</span>
+                  <div className="grid-metric-val">+42.0%</div>
+                  <span className="grid-metric-lbl">RevPAR Growth</span>
+                </div>
+
+                <div className="grid-metric-item">
+                  <span className="grid-metric-sub">Marketing Reach</span>
+                  <div className="grid-metric-val">+56.0%</div>
+                  <span className="grid-metric-lbl">Direct Bookings</span>
+                </div>
+
+                <div className="grid-metric-item">
+                  <span className="grid-metric-sub">Owner Profitability</span>
+                  <div className="grid-metric-val">+480 bps</div>
+                  <span className="grid-metric-lbl">GOP Margin Expansion</span>
+                </div>
+
+                <div className="grid-metric-item">
+                  <span className="grid-metric-sub">Execution Window</span>
+                  <div className="grid-metric-val">60 Days</div>
+                  <span className="grid-metric-lbl">Onboarding Duration</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Growth Strategy */}
+      <section id="growth" className="section-padding reveal" style={{ borderTop: '1px solid rgba(169, 127, 56, 0.12)' }}>
+        <div className="container">
+          <div className="showcase-header" style={{ marginBottom: '60px' }}>
+            <span className="hero-subtitle">Growth Strategy</span>
+            <h2>Phased Path to Scale</h2>
+            <p>Our long-term roadmap to expand our portfolio and secure market leadership.</p>
+          </div>
+
+          <div ref={growthRef} className="growth-dashboard">
+            {/* Left: Constellation Map */}
+            <div className="growth-map-col">
+              <svg className="constellation-svg" viewBox="0 0 300 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                {/* Background Connecting Path (Inactive) */}
+                <path 
+                  d="M 150 65 L 90 185 L 210 310 L 150 435" 
+                  stroke="rgba(169, 127, 56, 0.12)" 
+                  strokeWidth="2" 
+                  strokeDasharray="4 4" 
+                />
+                
+                {/* Active drawing path */}
+                <path 
+                  d="M 150 65 L 90 185 L 210 310 L 150 435" 
+                  stroke="var(--gold-primary)" 
+                  strokeWidth="2" 
+                  strokeDasharray="450" 
+                  style={{
+                    strokeDashoffset: 450 - (growthProgress / 100) * 450,
+                    transition: 'stroke-dashoffset 0.1s linear'
+                  }}
+                />
+
+                {/* Node 1: Core Operations */}
+                <g className={`map-node ${growthProgress >= 0 ? 'active' : ''}`}>
+                  <circle cx={150} cy={65} r={6} className="node-dot" />
+                  <text x={150} y={35} className="node-label-phase" textAnchor="middle">Phase 01</text>
+                  <text x={150} y={47} className="node-label-city" textAnchor="middle">Core Operations</text>
+                </g>
+
+                {/* Node 2: Market Scale */}
+                <g className={`map-node ${growthProgress >= 30 ? 'active' : ''}`}>
+                  <circle cx={90} cy={185} r={6} className="node-dot" />
+                  <text x={75} y={180} className="node-label-phase" textAnchor="end">Phase 02</text>
+                  <text x={75} y={192} className="node-label-city" textAnchor="end">Market Scale</text>
+                </g>
+
+                {/* Node 3: New Formats */}
+                <g className={`map-node ${growthProgress >= 65 ? 'active' : ''}`}>
+                  <circle cx={210} cy={310} r={6} className="node-dot" />
+                  <text x={225} y={305} className="node-label-phase" textAnchor="start">Phase 03</text>
+                  <text x={225} y={317} className="node-label-city" textAnchor="start">New Formats</text>
+                </g>
+
+                {/* Node 4: Adjacent Verticals */}
+                <g className={`map-node ${growthProgress >= 93 ? 'active' : ''}`}>
+                  <circle cx={150} cy={435} r={6} className="node-dot" />
+                  <text x={150} y={460} className="node-label-phase" textAnchor="middle">Phase 04</text>
+                  <text x={150} y={472} className="node-label-city" textAnchor="middle">Adjacent Verticals</text>
+                </g>
+              </svg>
+            </div>
+
+            {/* Right: Evaporating Mist Cards */}
+            <div className="growth-cards-col">
+              {GROWTH_STRATEGY.map((st, idx) => {
+                const isStepActive = 
+                  (idx === 0 && growthProgress >= 0) ||
+                  (idx === 1 && growthProgress >= 30) ||
+                  (idx === 2 && growthProgress >= 65) ||
+                  (idx === 3 && growthProgress >= 93);
+
+                return (
+                  <div key={idx} className={`growth-step-card ${isStepActive ? 'active' : ''}`}>
+                    {/* The Mountain Mist Cloud Overlay */}
+                    <div className="growth-mist-overlay">
+                      <div className="mist-cloud-particle"></div>
+                    </div>
+                    {/* The Card content beneath the mist */}
+                    <div className="growth-card-content">
+                      <span className="growth-num">{st.num} • Strategy Phase</span>
+                      <h3 className="growth-title">{st.title}</h3>
+                      <p className="growth-desc">{st.desc}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <section id="services" className="section-padding reveal" style={{ borderTop: '1px solid rgba(169, 127, 56, 0.12)' }}>
+        <div className="container">
+          <div className="showcase-header" style={{ marginBottom: '80px' }}>
+            <span className="hero-subtitle">Our Capabilities</span>
+            <h2>The NU Management Engine</h2>
+            <p>We combine your physical assets with our operational power to secure market leadership and RevPAR growth.</p>
+          </div>
+
+          <div className="services-grid">
+            <div className="services-accordion">
+              {SERVICES_DATA.map((srv) => (
+                <div 
+                  key={srv.id} 
+                  className={`service-item ${activeService === srv.id ? 'active' : ''}`}
+                >
+                  <button 
+                    className="service-trigger"
+                    onClick={() => setActiveService(srv.id)}
+                  >
+                    <span>{srv.title}</span>
+                    <ChevronDown 
+                      size={20} 
+                      style={{ 
+                        transform: activeService === srv.id ? 'rotate(180deg)' : 'rotate(0)',
+                        transition: 'transform 0.3s ease'
+                      }} 
+                    />
+                  </button>
+                  <div className="service-content">
+                    <p>{srv.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="services-visual-panel">
+              {SERVICES_DATA.map((srv) => (
+                <img 
+                  key={srv.id}
+                  src={srv.image} 
+                  alt={srv.title} 
+                  className={`services-panel-img ${activeService === srv.id ? 'active' : ''}`}
+                />
+              ))}
+              <div className="services-panel-overlay"></div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Partnership & B2B Form Section */}
       <section id="partner" className="section-padding reveal" style={{ borderTop: '1px solid rgba(169, 127, 56, 0.12)' }}>
@@ -1223,33 +2052,33 @@ function App() {
             <div className="partnership-cards">
               <div className="partner-card-item">
                 <Building className="partner-card-icon" size={28} />
-                <h3 className="partner-card-title">Full Management</h3>
+                <h3 className="partner-card-title">Owner-Centric Philosophy</h3>
                 <p className="partner-card-desc">
-                  Complete end-to-end operation, brand integration, pricing optimization, centralized procurement scale, and full staffing control.
+                  We view the relationship as a true partnership, aligning our fees and incentives with your gross operating profit (GOP).
                 </p>
               </div>
 
               <div className="partner-card-item">
                 <UserCheck className="partner-card-icon" size={28} />
-                <h3 className="partner-card-title">Manchise Contract</h3>
+                <h3 className="partner-card-title">Powerful Distribution Engine</h3>
                 <p className="partner-card-desc">
-                  Maintain and manage operations using existing or hotel-acquired staff, utilizing our backend training protocols and PMS CRS scale.
+                  Reduced dependency on third-party OTAs through direct booking channels, corporate contracts, and a loyal customer base.
                 </p>
               </div>
 
               <div className="partner-card-item">
                 <Hotel className="partner-card-icon" size={28} />
-                <h3 className="partner-card-title">White-Label / Franchise</h3>
+                <h3 className="partner-card-title">Advanced Technology Stack</h3>
                 <p className="partner-card-desc">
-                  Operate under your own unique independent or soft brand name, while utilizing NU Hotels' sales distribution and operational engines.
+                  Integrated PMS, CRS, and AI-driven Revenue Management tools to dynamically optimize ADR and RevPAR in real-time.
                 </p>
               </div>
 
               <div className="partner-card-item">
                 <Shield className="partner-card-icon" size={28} />
-                <h3 className="partner-card-title">Conversion Expertise</h3>
+                <h3 className="partner-card-title">Economies of Scale</h3>
                 <p className="partner-card-desc">
-                  Smooth, rapid rebranding workflows engineered to minimize property downtime and capture bookings from day one of transition.
+                  Lower day-to-day operational costs through centralized procurement, vendor relationships, and shared service models.
                 </p>
               </div>
             </div>
@@ -1321,7 +2150,6 @@ function App() {
           </div>
         </div>
       </section>
-
 
       {/* Voices of Trust / Testimonials Section */}
       <section id="standards" className="section-padding reveal" style={{ borderTop: '1px solid rgba(169, 127, 56, 0.12)', backgroundColor: 'transparent' }}>
@@ -1497,356 +2325,39 @@ function App() {
           </div>
         </div>
       </section>
-
-
-        </div>
-      )}
-
-      {currentPage === 'operations' && (
-        <div className="page-transition-fade">
-      {/* Services Section */}
-      <section id="services" className="section-padding reveal" style={{ borderTop: '1px solid rgba(169, 127, 56, 0.12)' }}>
-        <div className="container">
-          <div className="showcase-header" style={{ marginBottom: '80px' }}>
-            <span className="hero-subtitle">Our Capabilities</span>
-            <h2>The NU Management Engine</h2>
-            <p>We combine your physical assets with our operational power to secure market leadership and RevPAR growth.</p>
-          </div>
-
-          <div className="services-grid">
-            <div className="services-accordion">
-              {SERVICES_DATA.map((srv) => (
-                <div 
-                  key={srv.id} 
-                  className={`service-item ${activeService === srv.id ? 'active' : ''}`}
-                >
-                  <button 
-                    className="service-trigger"
-                    onClick={() => setActiveService(srv.id)}
-                  >
-                    <span>{srv.title}</span>
-                    <ChevronDown 
-                      size={20} 
-                      style={{ 
-                        transform: activeService === srv.id ? 'rotate(180deg)' : 'rotate(0)',
-                        transition: 'transform 0.3s ease'
-                      }} 
-                    />
-                  </button>
-                  <div className="service-content">
-                    <p>{srv.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="services-visual-panel">
-              {SERVICES_DATA.map((srv) => (
-                <img 
-                  key={srv.id}
-                  src={srv.image} 
-                  alt={srv.title} 
-                  className={`services-panel-img ${activeService === srv.id ? 'active' : ''}`}
-                />
-              ))}
-              <div className="services-panel-overlay"></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-      {/* Onboarding Roadmap */}
-      <section id="roadmap" className="section-padding reveal" style={{ borderTop: '1px solid rgba(169, 127, 56, 0.12)' }}>
-        <div className="container">
-          <div className="showcase-header">
-            <span className="hero-subtitle">Asset Onboarding</span>
-            <h2>Roadmap to Transition</h2>
-            <p>A seamless roadmap engineered to re-position and integrate your hotel asset into our operations with zero downtime.</p>
-          </div>
-
-          <div ref={timelineRef} className="roadmap-timeline">
-            {/* Scroll-driven progressive timeline progress overlay line */}
-            <div className="roadmap-track-container">
-              <div className="roadmap-progress-line" style={{ height: `${timelineProgress}%` }}></div>
-            </div>
-            {ROADMAP_DATA.map((step, idx) => {
-              // Synchronize dot/card activation directly with the gold line progression height
-              const isStepActive = 
-                (idx === 0 && timelineProgress >= 2) ||
-                (idx === 1 && timelineProgress >= 30) ||
-                (idx === 2 && timelineProgress >= 60) ||
-                (idx === 3 && timelineProgress >= 93);
-
-              return (
-                <div key={idx} className="roadmap-step">
-                  <div className={`roadmap-dot ${isStepActive ? 'active' : ''}`}>
-                    {idx + 1}
-                  </div>
-                  <div className={`roadmap-connector ${isStepActive ? 'active' : ''}`}></div>
-                  <div className={`glass-card roadmap-card ${isStepActive ? 'active' : ''}`}>
-                    <div className="roadmap-badges">
-                      <span className="roadmap-badge phase">{step.phase}</span>
-                      <span className="roadmap-badge timeline">{step.timeline}</span>
-                    </div>
-                    <h3 className="roadmap-title">{step.title}</h3>
-                    <ul className="roadmap-bullets">
-                      {step.bullets.map((bullet, i) => (
-                        <li key={i} className="roadmap-bullet-item">
-                          <span className="roadmap-bullet-marker">◆</span>
-                          <span className="roadmap-bullet-text">{bullet}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-
-        </div>
+      </>
       )}
 
       {currentPage === 'portfolio' && (
-        <div className="page-transition-fade">
-      {/* The Hotels Collection */}
-      <section id="hotels" className="section-padding reveal" style={{ borderTop: '1px solid rgba(169, 127, 56, 0.12)' }}>
-        <div className="container">
-          <div className="showcase-header">
-            <span className="hero-subtitle">The Collection</span>
-            <h2>Our Architectural Portfolios</h2>
-            <p>Explore our carefully segmented hospitality brand tiers, running profitably across Chandigarh, Mohali, Ludhiana, and Jammu & Kashmir.</p>
-          </div>
+        <PortfolioPage 
+          activeCategory={activeCategory}
+          setActiveCategory={setActiveCategory}
+          filteredHotels={filteredHotels}
+          handleCardMouseMove={handleCardMouseMove}
+          handleCardMouseLeave={handleCardMouseLeave}
+          activeHotelDetail={activeHotelDetail}
+          setActiveHotelDetail={setActiveHotelDetail}
+          isCaseDrawerOpen={isCaseDrawerOpen}
+          setIsCaseDrawerOpen={setIsCaseDrawerOpen}
+          growthRef={growthRef}
+          growthProgress={growthProgress}
+        />
+      )}
 
-          <div className="showcase-tabs">
-            <button 
-              className={`showcase-tab ${activeCategory === 'all' ? 'active' : ''}`}
-              onClick={() => setActiveCategory('all')}
-            >
-              All Hotels
-            </button>
-            <button 
-              className={`showcase-tab ${activeCategory === 'luxe' ? 'active' : ''}`}
-              onClick={() => setActiveCategory('luxe')}
-            >
-              NU Luxe
-            </button>
-            <button 
-              className={`showcase-tab ${activeCategory === 'axis' ? 'active' : ''}`}
-              onClick={() => setActiveCategory('axis')}
-            >
-              NU Axis
-            </button>
-            <button 
-              className={`showcase-tab ${activeCategory === 'nest' ? 'active' : ''}`}
-              onClick={() => setActiveCategory('nest')}
-            >
-              NU Nest
-            </button>
-          </div>
+      {currentPage === 'operations' && (
+        <OperationsPage 
+          activeService={activeService}
+          setActiveService={setActiveService}
+          timelineRef={timelineRef}
+          timelineProgress={timelineProgress}
+        />
+      )}
 
-          <div className="showcase-grid">
-            {filteredHotels.map((hotel) => (
-              <article 
-                key={hotel.id} 
-                className="hotel-card" 
-                style={{ cursor: 'pointer' }}
-                onClick={() => setActiveHotelDetail(hotel)}
-                onMouseMove={handleCardMouseMove}
-                onMouseLeave={handleCardMouseLeave}
-              >
-                <div className="hotel-card-inner">
-                  <div className="card-border-shine"></div>
-                  <div className="card-glare"></div>
-                  <div className="hotel-img-wrapper">
-                    <img 
-                      src={hotel.image} 
-                      alt={hotel.name} 
-                      className="hotel-img" 
-                      style={{ objectPosition: hotel.objectPosition || 'center' }}
-                    />
-                    <span className="hotel-tag">{hotel.tag}</span>
-                  </div>
-                  <div className="hotel-content-box">
-                    <h3 className="hotel-name">{hotel.name}</h3>
-                    <div className="hotel-location">
-                      <MapPin size={14} className="footer-contact-icon" style={{ marginTop: 0 }} />
-                      <span>{hotel.location}</span>
-                    </div>
-                    <div className="hotel-features">
-                      {hotel.features.map((f, i) => (
-                        <span key={i} className="hotel-feature">
-                          <Check size={12} style={{ color: 'var(--gold-primary)' }} />
-                          {f}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-
-      {/* Case Study Section */}
-      <section id="case" className="section-padding reveal" style={{ borderTop: '1px solid rgba(169, 127, 56, 0.12)' }}>
-        <div className="container">
-          <div className="showcase-header" style={{ marginBottom: '50px' }}>
-            <span className="hero-subtitle">Success Story</span>
-            <h2>Proven Turnaround Results</h2>
-            <p>Our operational framework in action. Click to reveal detailed operational milestones.</p>
-          </div>
-
-          <div className="glass-card case-study-card">
-            <div className="case-study-card-inner">
-              <div className="case-info">
-                <span className="case-meta">Case Study • Performance Turnaround</span>
-                <h3 className="case-title">NU Tamarind Tree</h3>
-                <span className="hero-subtitle" style={{ fontSize: '0.75rem', marginBottom: '24px', display: 'block' }}>25-Key Boutique Hotel</span>
-                
-                <p className="case-narrative">
-                  Prior to our transition, the boutique property struggled with low occupancy, high dependency on OTA channels, and operational friction. By deploying our centralized sales network, integrating Vite PMS/CRS dynamic rate management, and retraining staff with our signature <span className="highlight-gold">"Sewak"</span> hospitality program, we unlocked high efficiency and turned the asset profitable in under 60 days.
-                </p>
-
-                <button 
-                  className="btn btn-primary case-cta" 
-                  onClick={() => setIsCaseDrawerOpen(true)}
-                  style={{ marginTop: '30px', alignSelf: 'flex-start' }}
-                >
-                  View Operational Logs
-                </button>
-              </div>
-
-              <div className="case-metrics-grid">
-                <div className="grid-metric-item">
-                  <span className="grid-metric-sub">Financial Lift</span>
-                  <div className="grid-metric-val">+42.0%</div>
-                  <span className="grid-metric-lbl">RevPAR Growth</span>
-                </div>
-
-                <div className="grid-metric-item">
-                  <span className="grid-metric-sub">Marketing Reach</span>
-                  <div className="grid-metric-val">+56.0%</div>
-                  <span className="grid-metric-lbl">Direct Bookings</span>
-                </div>
-
-                <div className="grid-metric-item">
-                  <span className="grid-metric-sub">Owner Profitability</span>
-                  <div className="grid-metric-val">+480 bps</div>
-                  <span className="grid-metric-lbl">GOP Margin Expansion</span>
-                </div>
-
-                <div className="grid-metric-item">
-                  <span className="grid-metric-sub">Execution Window</span>
-                  <div className="grid-metric-val">60 Days</div>
-                  <span className="grid-metric-lbl">Onboarding Duration</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-      {/* Growth Strategy */}
-      <section id="growth" className="section-padding reveal" style={{ borderTop: '1px solid rgba(169, 127, 56, 0.12)' }}>
-        <div className="container">
-          <div className="showcase-header" style={{ marginBottom: '60px' }}>
-            <span className="hero-subtitle">Growth Strategy</span>
-            <h2>Phased Path to Scale</h2>
-            <p>Our long-term roadmap to expand our portfolio and secure market leadership.</p>
-          </div>
-
-          <div ref={growthRef} className="growth-dashboard">
-            {/* Left: Constellation Map */}
-            <div className="growth-map-col">
-              <svg className="constellation-svg" viewBox="0 0 300 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-                {/* Background Connecting Path (Inactive) */}
-                <path 
-                  d="M 150 65 L 90 185 L 210 310 L 150 435" 
-                  stroke="rgba(169, 127, 56, 0.12)" 
-                  strokeWidth="2" 
-                  strokeDasharray="4 4" 
-                />
-                
-                {/* Active drawing path */}
-                <path 
-                  d="M 150 65 L 90 185 L 210 310 L 150 435" 
-                  stroke="var(--gold-primary)" 
-                  strokeWidth="2" 
-                  strokeDasharray="450" 
-                  style={{
-                    strokeDashoffset: 450 - (growthProgress / 100) * 450,
-                    transition: 'stroke-dashoffset 0.1s linear'
-                  }}
-                />
-
-                {/* Node 1: Core Operations */}
-                <g className={`map-node ${growthProgress >= 0 ? 'active' : ''}`}>
-                  <circle cx={150} cy={65} r={6} className="node-dot" />
-                  <text x={150} y={35} className="node-label-phase" textAnchor="middle">Phase 01</text>
-                  <text x={150} y={47} className="node-label-city" textAnchor="middle">Core Operations</text>
-                </g>
-
-                {/* Node 2: Market Scale */}
-                <g className={`map-node ${growthProgress >= 30 ? 'active' : ''}`}>
-                  <circle cx={90} cy={185} r={6} className="node-dot" />
-                  <text x={75} y={180} className="node-label-phase" textAnchor="end">Phase 02</text>
-                  <text x={75} y={192} className="node-label-city" textAnchor="end">Market Scale</text>
-                </g>
-
-                {/* Node 3: New Formats */}
-                <g className={`map-node ${growthProgress >= 65 ? 'active' : ''}`}>
-                  <circle cx={210} cy={310} r={6} className="node-dot" />
-                  <text x={225} y={305} className="node-label-phase" textAnchor="start">Phase 03</text>
-                  <text x={225} y={317} className="node-label-city" textAnchor="start">New Formats</text>
-                </g>
-
-                {/* Node 4: Adjacent Verticals */}
-                <g className={`map-node ${growthProgress >= 93 ? 'active' : ''}`}>
-                  <circle cx={150} cy={435} r={6} className="node-dot" />
-                  <text x={150} y={460} className="node-label-phase" textAnchor="middle">Phase 04</text>
-                  <text x={150} y={472} className="node-label-city" textAnchor="middle">Adjacent Verticals</text>
-                </g>
-              </svg>
-            </div>
-
-            {/* Right: Evaporating Mist Cards */}
-            <div className="growth-cards-col">
-              {GROWTH_STRATEGY.map((st, idx) => {
-                const isStepActive = 
-                  (idx === 0 && growthProgress >= 0) ||
-                  (idx === 1 && growthProgress >= 30) ||
-                  (idx === 2 && growthProgress >= 65) ||
-                  (idx === 3 && growthProgress >= 93);
-
-                return (
-                  <div key={idx} className={`growth-step-card ${isStepActive ? 'active' : ''}`}>
-                    {/* The Mountain Mist Cloud Overlay */}
-                    <div className="growth-mist-overlay">
-                      <div className="mist-cloud-particle"></div>
-                    </div>
-                    {/* The Card content beneath the mist */}
-                    <div className="growth-card-content">
-                      <span className="growth-num">{st.num} • Strategy Phase</span>
-                      <h3 className="growth-title">{st.title}</h3>
-                      <p className="growth-desc">{st.desc}</p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-        </div>
+      {currentPage === 'board' && (
+        <BoardPage 
+          activePromoter={activePromoter}
+          setActivePromoter={setActivePromoter}
+        />
       )}
 
       {/* Footer Section */}
@@ -1866,59 +2377,10 @@ function App() {
             <div>
               <h4 className="footer-title">Quick Links</h4>
               <ul className="footer-links">
-                <li>
-                  <button 
-                    onClick={() => {
-                      setCurrentPage("home");
-                      setTimeout(() => {
-                        const s = document.getElementById('about');
-                        if (s) s.scrollIntoView({ behavior: 'smooth' });
-                      }, 100);
-                    }} 
-                    className="footer-link-btn"
-                  >
-                    About Us
-                  </button>
-                </li>
-                <li>
-                  <button 
-                    onClick={() => {
-                      setCurrentPage("portfolio");
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }} 
-                    className="footer-link-btn"
-                  >
-                    Portfolio
-                  </button>
-                </li>
-                <li>
-                  <button 
-                    onClick={() => {
-                      setCurrentPage("home");
-                      setTimeout(() => {
-                        const s = document.getElementById('partner');
-                        if (s) s.scrollIntoView({ behavior: 'smooth' });
-                      }, 100);
-                    }} 
-                    className="footer-link-btn"
-                  >
-                    Partnerships
-                  </button>
-                </li>
-                <li>
-                  <button 
-                    onClick={() => {
-                      setCurrentPage("home");
-                      setTimeout(() => {
-                        const s = document.getElementById('standards');
-                        if (s) s.scrollIntoView({ behavior: 'smooth' });
-                      }, 100);
-                    }} 
-                    className="footer-link-btn"
-                  >
-                    Testimonials
-                  </button>
-                </li>
+                <li><a href="#about" className="footer-link">About Us</a></li>
+                <li><a href="#hotels" className="footer-link">Portfolio</a></li>
+                <li><a href="#partner" className="footer-link">Partnerships</a></li>
+                <li><a href="#standards" className="footer-link">Testimonials</a></li>
               </ul>
             </div>
 
