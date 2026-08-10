@@ -46,7 +46,12 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 110px; /* Offsets scroll target below fixed header */
   -webkit-text-size-adjust: 100%;
+  overflow-y: scroll; /* Force scrolling context */
+  overflow-x: hidden;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
 }
 
 body {
@@ -94,24 +99,12 @@ a {
   transition: var(--transition-fast);
 }
 
-/* Scrollbar styling */
+/* Hide scrollbar completely for a seamless, premium, borderless design */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  display: none; /* Chrome, Safari, Opera */
 }
 
-::-webkit-scrollbar-track {
-  background: var(--bg-cream);
-}
 
-::-webkit-scrollbar-thumb {
-  background: rgba(169, 127, 56, 0.3);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--gold-primary);
-}
 
 /* Premium Layout Utilities */
 .container {

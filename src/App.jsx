@@ -26,6 +26,7 @@ import {
   ExternalLink
 } from 'lucide-react';
 import './App.css';
+import NuDifference from './NuDifference';
 
 // Hotel Data
 const HOTELS_DATA = [
@@ -318,43 +319,59 @@ const ROOM_OPTIONS = {
   ]
 };
 
-// Automated Counter component for stats with IntersectionObserver trigger
-function AnimatedCounter({ target, duration = 2000, suffix = "" }) {
+// Automated Counter component for stats with IntersectionObserver trigger and fallback
+function AnimatedCounter({ target, duration = 1500, suffix = "" }) {
   const [count, setCount] = useState(0);
   const elementRef = useRef(null);
-  const hasAnimated = useRef(false);
 
   useEffect(() => {
+    let startTimestamp = null;
+    let animationFrameId = null;
+    let isAnimated = false;
+
+    const startAnimation = () => {
+      if (isAnimated) return;
+      isAnimated = true;
+      const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        setCount(Math.floor(progress * target));
+        if (progress < 1) {
+          animationFrameId = window.requestAnimationFrame(step);
+        } else {
+          setCount(target);
+        }
+      };
+      animationFrameId = window.requestAnimationFrame(step);
+    };
+
     const observer = new IntersectionObserver(
       (entries) => {
         const [entry] = entries;
-        if (entry.isIntersecting && !hasAnimated.current) {
-          hasAnimated.current = true;
-          let startTimestamp = null;
-          const step = (timestamp) => {
-            if (!startTimestamp) startTimestamp = timestamp;
-            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-            setCount(Math.floor(progress * target));
-            if (progress < 1) {
-              window.requestAnimationFrame(step);
-            } else {
-              setCount(target);
-            }
-          };
-          window.requestAnimationFrame(step);
+        if (entry.isIntersecting) {
+          startAnimation();
+          observer.disconnect();
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.05 }
     );
 
     if (elementRef.current) {
       observer.observe(elementRef.current);
     }
 
+    // Fallback: If it doesn't trigger in 300ms, start it anyway
+    const fallbackTimer = setTimeout(() => {
+      startAnimation();
+      observer.disconnect();
+    }, 300);
+
     return () => {
-      if (elementRef.current) {
-        observer.unobserve(elementRef.current);
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
       }
+      observer.disconnect();
+      clearTimeout(fallbackTimer);
     };
   }, [target, duration]);
 
@@ -366,6 +383,8 @@ function App() {
   const [heroPos, setHeroPos] = useState({ x: 0, y: 0 });
   const [activeService, setActiveService] = useState("revenue");
   const [isScrolled, setIsScrolled] = useState(false);
+  const [currentPage, setCurrentPage] = useState("home");
+  const [activeHash, setActiveHash] = useState(window.location.hash || '#');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
@@ -708,6 +727,82 @@ function App() {
     };
   }, []);
 
+  // Hash-based router listener with cross-page section scrolling
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash;
+      setActiveHash(hash || '#');
+      if (hash === '#difference') {
+        setCurrentPage('difference');
+        window.scrollTo({ top: 0 });
+      } else {
+        setCurrentPage('home');
+        if (!hash || hash === '#' || hash === '#home') {
+          window.scrollTo({ top: 0 });
+        }
+      }
+    };
+    
+    handleHashChange(); // Run once on load to catch initial hash
+    
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  // Scroll Spy Observer to highlight navbar links on scroll
+  useEffect(() => {
+    const handleScrollSpy = () => {
+      if (currentPage === 'difference') {
+        setActiveHash('#difference');
+        return;
+      }
+      
+      const sections = ['about', 'hotels', 'partner'];
+      let currentSection = '#';
+      
+      if (window.scrollY < 100) {
+        setActiveHash('#');
+        return;
+      }
+
+      for (const sectionId of sections) {
+        const el = document.getElementById(sectionId);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= window.innerHeight * 0.35) {
+            currentSection = `#${sectionId}`;
+          }
+        }
+      }
+      setActiveHash(currentSection);
+    };
+
+    window.addEventListener('scroll', handleScrollSpy);
+    window.addEventListener('hashchange', handleScrollSpy);
+    handleScrollSpy();
+
+    return () => {
+      window.removeEventListener('scroll', handleScrollSpy);
+      window.removeEventListener('hashchange', handleScrollSpy);
+    };
+  }, [currentPage]);
+
+  // Smooth scroll to homepage sections after page mount
+  useEffect(() => {
+    if (currentPage === 'home') {
+      const hash = window.location.hash;
+      if (hash && hash !== '#difference') {
+        const id = hash.replace('#', '');
+        setTimeout(() => {
+          const element = document.getElementById(id);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 150);
+      }
+    }
+  }, [currentPage]);
+
   // Intersection Observer for scroll animations
   useEffect(() => {
     const revealElements = document.querySelectorAll('.reveal');
@@ -723,7 +818,7 @@ function App() {
 
     revealElements.forEach(el => observer.observe(el));
     return () => revealElements.forEach(el => observer.unobserve(el));
-  }, [activeCategory]);
+  }, [activeCategory, currentPage]);
 
   // Promoter trigger actions: Auto-fills form, scrolls down, and flashes target form area
   const handlePromoterAction = (promoterName, actionType) => {
@@ -777,7 +872,6 @@ function App() {
         <div className="scroll-progress-bar" style={{ width: `${scrollPercent}%` }}></div>
       </div>
 
-      {/* Header Navigation */}
       <header className={`header ${isScrolled ? 'glass-nav scaff-scrolled' : ''}`}>
         <div className="container">
           <a href="#" className="logo-container">
@@ -786,9 +880,10 @@ function App() {
           </a>
 
           <ul className="nav-links">
-            <li><a href="#about" className="nav-link">About Us</a></li>
-            <li><a href="#hotels" className="nav-link">Portfolio</a></li>
-            <li><a href="#partner" className="nav-link">Partnerships</a></li>
+            <li><a href="#" className={`nav-link ${currentPage === 'home' && (activeHash === '#' || activeHash === '' || activeHash === '#home') ? 'active' : ''}`}>Home</a></li>
+            <li><a href="#about" className={`nav-link ${currentPage === 'home' && activeHash === '#about' ? 'active' : ''}`}>About Us</a></li>
+            <li><a href="#difference" className={`nav-link ${currentPage === 'difference' || activeHash === '#difference' ? 'active' : ''}`}>The NU Difference</a></li>
+            <li><a href="#hotels" className={`nav-link ${currentPage === 'home' && activeHash === '#hotels' ? 'active' : ''}`}>Portfolio</a></li>
           </ul>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
@@ -796,9 +891,16 @@ function App() {
               className="btn btn-primary magnetic-btn" 
               style={{ padding: '10px 20px', fontSize: '0.75rem' }}
               onClick={() => {
-                const partnerSection = document.getElementById('partner');
-                if (partnerSection) {
-                  partnerSection.scrollIntoView({ behavior: 'smooth' });
+                const targetId = document.getElementById('partner-form-section') ? 'partner-form-section' : 'partner';
+                const element = document.getElementById(targetId);
+                if (element) {
+                  const headerOffset = 90;
+                  const elementPosition = element.getBoundingClientRect().top;
+                  const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                  window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                  });
                 }
               }}
               onMouseMove={handleMagneticMove}
@@ -834,76 +936,69 @@ function App() {
             }}
             className="glass-card"
           >
-            <a href="#about" className="nav-link" onClick={() => setMobileMenuOpen(false)}>About Us</a>
-            <a href="#hotels" className="nav-link" onClick={() => setMobileMenuOpen(false)}>Portfolio</a>
-            <a href="#partner" className="nav-link" onClick={() => setMobileMenuOpen(false)}>Partnerships</a>
+            <a href="#" className={`nav-link ${currentPage === 'home' && (activeHash === '#' || activeHash === '' || activeHash === '#home') ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>Home</a>
+            <a href="#about" className={`nav-link ${currentPage === 'home' && activeHash === '#about' ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>About Us</a>
+            <a href="#difference" className={`nav-link ${currentPage === 'difference' || activeHash === '#difference' ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>The NU Difference</a>
+            <a href="#hotels" className={`nav-link ${currentPage === 'home' && activeHash === '#hotels' ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>Portfolio</a>
           </div>
         )}
       </header>
 
+      {currentPage === 'difference' ? (
+        <NuDifference />
+      ) : (
+        <>
       {/* Hero Section */}
       <section 
         className="hero-section"
         onMouseMove={handleHeroMouseMove}
         onMouseLeave={handleHeroMouseLeave}
+        style={{
+          backgroundImage: `url('/heritage_palace.webp')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center top',
+          backgroundAttachment: 'scroll',
+          position: 'relative'
+        }}
       >
-        <div 
-          className="hero-bg-glow"
-          style={{
-            transform: `translate3d(${heroPos.x * -1.5}px, ${heroPos.y * -1.5}px, 0)`
-          }}
-        ></div>
-        <div className="container" style={{ position: 'relative', zIndex: 2 }}>
-          <div className="hero-grid">
-            <div className="hero-content">
-              <span className="hero-subtitle">NU Hotels India</span>
-              <h1 className="hero-title">
-                Partnering for <br />
-                <span>Profitability & Growth</span>
-              </h1>
-              <p className="hero-desc">
-                An established, promoter-led hotel management and operating company with a revenue-generating portfolio of 10+ properties across Chandigarh, Punjab, and Jammu & Kashmir. Combining 50+ years of hands-on leadership with disciplined sales-driven operations.
-              </p>
-              <div className="hero-cta-group">
-                <a 
-                  href="#partner" 
-                  className="btn btn-primary magnetic-btn"
-                  onMouseMove={handleMagneticMove}
-                  onMouseLeave={handleMagneticLeave}
-                >
-                  Become a Partner
-                </a>
-                <a 
-                  href="#hotels" 
-                  className="btn btn-secondary magnetic-btn"
-                  onMouseMove={handleMagneticMove}
-                  onMouseLeave={handleMagneticLeave}
-                >
-                  Explore Portfolio
-                </a>
-              </div>
-            </div>
+        {/* Full-screen Dark overlay to ensure contrast */}
+        <div className="hero-overlay-dark"></div>
 
-            <div 
-              className="hero-image-wrapper"
-              style={{
-                transform: `translate3d(${heroPos.x}px, ${heroPos.y}px, 0)`,
-                transition: 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)'
-              }}
-            >
-              <img 
-                src="/hero_hotel.webp" 
-                alt="NU Hotels Sunrise Landscape View" 
-                className="hero-img-element"
-              />
-              <div className="hero-image-overlay"></div>
+        <div className="container" style={{ position: 'relative', zIndex: 2 }}>
+          <div className="hero-centered-content">
+
+
+            <span className="hero-subtitle">NU Hotels India</span>
+            
+            <h1 className="hero-title">
+              Partnering for <br />
+              <span>Profitability & Growth</span>
+            </h1>
+            
+            <p className="hero-desc">
+              A premium, promoter-led hotel management platform with a growing portfolio of 10+ properties across Northern India. We combine 50+ years of hands-on hospitality expertise with cutting-edge operations to drive maximum yield and asset value for hotel owners.
+            </p>
+            
+            <div className="hero-cta-group">
+              <a 
+                href="#partner" 
+                className="btn btn-primary magnetic-btn"
+                onMouseMove={handleMagneticMove}
+                onMouseLeave={handleMagneticLeave}
+              >
+                Become a Partner
+              </a>
+              <a 
+                href="#hotels" 
+                className="btn btn-secondary magnetic-btn"
+                onMouseMove={handleMagneticMove}
+                onMouseLeave={handleMagneticLeave}
+                style={{ borderColor: 'rgba(255, 255, 255, 0.4)', color: '#ffffff' }}
+              >
+                Explore Portfolio
+              </a>
             </div>
           </div>
-        </div>
-
-        <div className="scroll-indicator" onClick={() => document.getElementById('about').scrollIntoView({ behavior: 'smooth' })}>
-          <div className="scroll-indicator-line"></div>
-          <span>Scroll to Discover</span>
         </div>
       </section>
 
@@ -940,28 +1035,27 @@ function App() {
       </section>
 
       {/* Promoters & Legacy Section */}
-      <section id="about" className="about-section section-padding reveal">
+      <section id="about" className="about-section reveal">
         <div className="container">
-          <div className="about-grid" style={{ marginBottom: '60px' }}>
+          <div className="about-grid">
             <div className="about-text">
               <div className="about-header">
                 <span className="hero-subtitle" style={{ marginBottom: '10px' }}>Who We Are</span>
-                <h2>A Promoter-Operated Hospitality Platform</h2>
               </div>
               <p className="about-desc-large">
-                Concentrated presence across Chandigarh, Punjab, Haryana, and Jammu & Kashmir, which are markets our promoters have operated in for decades.
+                NU Hotels India is a system-driven hotel management and operating company with an established portfolio of <span style={{ color: 'var(--gold-primary)', fontWeight: '600' }}>10+ hotels</span> across Chandigarh, Punjab and Jammu & Kashmir.
+              </p>
+              <p className="about-desc-detail" style={{ marginBottom: '20px' }}>
+                Built on three decades of hospitality leadership, we combine disciplined sales-driven operations with deep regional market knowledge to run profitable, guest-focused properties.
               </p>
               <p className="about-desc-detail">
-                NU Hotels India owns, leases, and manages premium hotel properties, running day-to-day operations, sales, and guest experience across our portfolio. Built by career hospitality sales and marketing professionals, revenue generation is embedded in every property's operating model, providing a de-risked foundation for the company's next phase of growth.
+                Now, we are scaling with a vision for structured, capital-backed expansion across India.
               </p>
             </div>
 
-            <div className="about-image-showcase">
-              <div className="about-img-box tall">
-                <img src="/luxury_suite.webp" alt="Nu Hotels Luxury Bedroom Suite" />
-              </div>
-              <div className="about-img-box short">
-                <img src="/wellness_spa.webp" alt="Nu Hotels Premium Spa Pool" />
+            <div className="about-image-container">
+              <div className="about-image-wrapper">
+                <img src="/about_lobby.webp" alt="NU Hotels Premium Lobby Reception" className="about-lobby-img" />
               </div>
             </div>
           </div>
@@ -992,19 +1086,7 @@ function App() {
                   }}
                   className="team-main-photo"
                 />
-                <div style={{
-                  position: 'absolute',
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  background: 'linear-gradient(to top, rgba(22, 17, 12, 0.85) 0%, rgba(22, 17, 12, 0) 100%)',
-                  padding: '24px',
-                  color: '#fff',
-                  zIndex: 2
-                }}>
-                  <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--gold-primary)', fontWeight: '600' }}>Executive Group</span>
-                  <h4 style={{ color: '#fff', margin: '4px 0 0', fontSize: '1.1rem', fontWeight: '500' }}>The Custodians of the Brand</h4>
-                </div>
+
               </div>
 
               {/* Right Column: Editorial Text & Grid */}
@@ -1147,7 +1229,6 @@ function App() {
                       className="hotel-img" 
                       style={{ objectPosition: hotel.objectPosition || 'center' }}
                     />
-                    <span className="hotel-tag">{hotel.tag}</span>
                   </div>
                   <div className="hotel-content-box">
                     <h3 className="hotel-name">{hotel.name}</h3>
@@ -1711,6 +1792,8 @@ function App() {
         </div>
       </section>
 
+        </>
+      )}
       {/* Footer Section */}
       <footer id="contact" className="footer">
         <div className="container">
@@ -1821,7 +1904,6 @@ function App() {
                 className="modal-visual-img" 
               />
               <div className="modal-visual-overlay"></div>
-              <span className="modal-visual-tag">{activeHotelDetail.tag}</span>
               
               {/* Performance Stats Overlay at the bottom of visual */}
               <div 
