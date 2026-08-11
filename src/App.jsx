@@ -906,7 +906,7 @@ function App() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             <button 
               className="btn btn-primary magnetic-btn" 
-              style={{ padding: '10px 20px', fontSize: '0.75rem' }}
+              style={{ padding: '6px 14px', fontSize: '0.68rem', letterSpacing: '0.05em' }}
               onClick={() => setIsContactModalOpen(true)}
               onMouseMove={handleMagneticMove}
               onMouseLeave={handleMagneticLeave}
