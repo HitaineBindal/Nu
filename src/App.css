@@ -3475,6 +3475,12 @@ select.form-input {
   }
   .roadmap-dot {
     left: 15px !important;
+    top: 24px !important;
+  }
+  .roadmap-connector {
+    left: 40px !important;
+    width: 15px !important;
+    top: 36px !important;
   }
 }
 
