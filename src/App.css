@@ -1632,9 +1632,9 @@
 
 .node-dot {
   fill: #1C1A17;
-  stroke: rgba(169, 127, 56, 0.3);
+  stroke: rgba(169, 127, 56, 0.4);
   stroke-width: 2px;
-  r: 5px;
+  r: 12px;
   transition: fill 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
               stroke 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
               r 0.6s cubic-bezier(0.16, 1, 0.3, 1);
@@ -1675,11 +1675,30 @@
   fill: var(--gold-primary);
   stroke: #FAF7F2;
   stroke-width: 2px;
-  r: 7px;
+  r: 14px;
 }
 
 .theme-dark .map-node.active .node-dot {
   stroke: #171513;
+}
+
+/* Constellation Node Internal Numbering */
+.node-number {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 700;
+  fill: var(--gold-primary);
+  pointer-events: none;
+  user-select: none;
+  transition: fill 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.map-node.active .node-number {
+  fill: #FAF7F2;
+}
+
+.theme-dark .map-node.active .node-number {
+  fill: #171513;
 }
 
 
