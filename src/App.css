@@ -4224,3 +4224,127 @@ select.form-input {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
+
+/* Contact Modal Styles */
+.contact-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(14, 13, 12, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100;
+  opacity: 0;
+  animation: fadeInModal 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeInModal {
+  to { opacity: 1; }
+}
+
+.contact-modal-card {
+  width: 90%;
+  max-width: 550px;
+  background-color: var(--bg-cream);
+  border: 1px solid rgba(169, 127, 56, 0.18);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
+  position: relative;
+  transform: scale(0.95) translateY(10px);
+  opacity: 0;
+  animation: scaleInModal 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.05s forwards;
+}
+
+@keyframes scaleInModal {
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+.theme-dark .contact-modal-card {
+  background-color: #171513;
+  border-color: rgba(169, 127, 56, 0.25);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45);
+}
+
+.contact-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 30px;
+}
+
+.contact-modal-close {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(169, 127, 56, 0.1);
+}
+
+.contact-modal-close:hover {
+  color: var(--gold-primary);
+  background-color: rgba(169, 127, 56, 0.08);
+  border-color: var(--gold-primary);
+  transform: rotate(90deg);
+}
+
+.contact-modal-form .form-group {
+  margin-bottom: 24px;
+}
+
+.contact-modal-form .form-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  color: var(--gold-primary);
+  margin-bottom: 8px;
+  display: block;
+}
+
+.contact-modal-form .form-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(169, 127, 56, 0.2);
+  padding: 10px 0;
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  transition: border-color 0.3s ease;
+}
+
+.theme-dark .contact-modal-form .form-input {
+  color: var(--text-light);
+}
+
+.contact-modal-form .form-input:focus {
+  outline: none;
+  border-color: var(--gold-primary);
+}
+
+.contact-modal-form .form-input::placeholder {
+  color: rgba(169, 127, 56, 0.35);
+  font-size: 0.85rem;
+}
+
+/* Responsive styles for form grid inside modal */
+@media (max-width: 576px) {
+  .contact-modal-card {
+    padding: 30px 24px;
+  }
+  .contact-modal-form .form-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+  }
+}

@@ -404,6 +404,7 @@ function App() {
 
   // Case Study modal state
   const [isCaseDrawerOpen, setIsCaseDrawerOpen] = useState(false);
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
   // Promoter popovers states
   const [activePromoter, setActivePromoter] = useState(null);
@@ -413,6 +414,13 @@ function App() {
 
   // Form states
   const [inquiryForm, setInquiryForm] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    comments: ''
+  });
+
+  const [modalInquiryForm, setModalInquiryForm] = useState({
     name: '',
     email: '',
     phone: '',
@@ -518,12 +526,12 @@ function App() {
 
   // LOCK BODY SCROLL: While booking, case study, or hotel detailed drawers are open, lock scroll chaining.
   useEffect(() => {
-    if (isCaseDrawerOpen || activeHotelDetail) {
+    if (isCaseDrawerOpen || activeHotelDetail || isContactModalOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
     }
-  }, [isCaseDrawerOpen, activeHotelDetail]);
+  }, [isCaseDrawerOpen, activeHotelDetail, isContactModalOpen]);
 
   // Dynamic 3D mouse tilt handlers for portfolio hotel cards (with inner image parallax, drone zoom, and glare)
   const handleCardMouseMove = (e) => {
@@ -861,6 +869,15 @@ function App() {
     setTimeout(() => setShowSuccess(false), 5000);
   };
 
+  const handleModalInquirySubmit = (e) => {
+    e.preventDefault();
+    setSuccessMsg("Consultation Request Received. Our partnership team will contact you within 24 hours.");
+    setShowSuccess(true);
+    setIsContactModalOpen(false);
+    setModalInquiryForm({ name: '', email: '', phone: '', comments: '' });
+    setTimeout(() => setShowSuccess(false), 5000);
+  };
+
   const filteredHotels = activeCategory === "all" 
     ? HOTELS_DATA 
     : HOTELS_DATA.filter(h => h.category === activeCategory);
@@ -890,19 +907,7 @@ function App() {
             <button 
               className="btn btn-primary magnetic-btn" 
               style={{ padding: '10px 20px', fontSize: '0.75rem' }}
-              onClick={() => {
-                const targetId = document.getElementById('partner-form-section') ? 'partner-form-section' : 'partner';
-                const element = document.getElementById(targetId);
-                if (element) {
-                  const headerOffset = 90;
-                  const elementPosition = element.getBoundingClientRect().top;
-                  const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                  window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
-                  });
-                }
-              }}
+              onClick={() => setIsContactModalOpen(true)}
               onMouseMove={handleMagneticMove}
               onMouseLeave={handleMagneticLeave}
             >
@@ -2123,6 +2128,93 @@ function App() {
           </div>
         </div>
       </div>
+
+      {/* Contact Us Modal */}
+      {isContactModalOpen && (
+        <div 
+          className="contact-modal-backdrop"
+          onClick={() => setIsContactModalOpen(false)}
+        >
+          <div 
+            className="contact-modal-card"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="contact-modal-header">
+              <div>
+                <span className="hero-subtitle" style={{ fontSize: '0.7rem', marginBottom: '2px', display: 'block' }}>Partnerships & Conversions</span>
+                <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.8rem', color: 'var(--text-dark)', margin: 0 }}>Contact Us</h3>
+              </div>
+              <button 
+                className="contact-modal-close"
+                onClick={() => setIsContactModalOpen(false)}
+                aria-label="Close Contact Form"
+              >
+                <X size={20} />
+              </button>
+            </div>
+            
+            <form onSubmit={handleModalInquirySubmit} className="contact-modal-form">
+              <div className="form-group">
+                <label className="form-label">Full Name</label>
+                <input 
+                  type="text" 
+                  className="form-input" 
+                  required
+                  placeholder="e.g. Harpreet Singh"
+                  value={modalInquiryForm.name}
+                  onChange={(e) => setModalInquiryForm({...modalInquiryForm, name: e.target.value})}
+                />
+                <div className="form-input-line"></div>
+              </div>
+
+              <div className="form-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                <div className="form-group">
+                  <label className="form-label">Email Address</label>
+                  <input 
+                    type="email" 
+                    className="form-input" 
+                    required
+                    placeholder="name@example.com"
+                    value={modalInquiryForm.email}
+                    onChange={(e) => setModalInquiryForm({...modalInquiryForm, email: e.target.value})}
+                  />
+                  <div className="form-input-line"></div>
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label">Contact Number</label>
+                  <input 
+                    type="tel" 
+                    className="form-input" 
+                    required
+                    placeholder="+91 XXXXX XXXXX"
+                    value={modalInquiryForm.phone}
+                    onChange={(e) => setModalInquiryForm({...modalInquiryForm, phone: e.target.value})}
+                  />
+                  <div className="form-input-line"></div>
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">Comments / Requirements</label>
+                <textarea 
+                  rows="3" 
+                  className="form-input" 
+                  style={{ resize: 'none' }}
+                  placeholder="Tell us about your property, location, and key requirements..."
+                  value={modalInquiryForm.comments}
+                  onChange={(e) => setModalInquiryForm({...modalInquiryForm, comments: e.target.value})}
+                ></textarea>
+                <div className="form-input-line"></div>
+              </div>
+
+              <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '10px' }}>
+                Submit Inquiry
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* Floating Success Notification */}
       <div className={`success-notification ${showSuccess ? 'show' : ''}`}>
