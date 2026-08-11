@@ -939,7 +939,7 @@ function App() {
               gap: '16px',
               zIndex: 90
             }}
-            className="glass-card"
+            className="glass-card mobile-nav-drawer"
           >
             <a href="#" className={`nav-link ${currentPage === 'home' && (activeHash === '#' || activeHash === '' || activeHash === '#home') ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>Home</a>
             <a href="#about" className={`nav-link ${currentPage === 'home' && activeHash === '#about' ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>About Us</a>
