@@ -976,7 +976,7 @@ function App() {
             </h1>
             
             <p className="hero-desc">
-              A premium, promoter-led hotel management platform with a growing portfolio of 10+ properties across Northern India. We combine 50+ years of hands-on hospitality expertise with cutting-edge operations to drive maximum yield and asset value for hotel owners.
+              A premium, promoter-led hotel management platform with a growing portfolio of <span style={{ color: 'var(--gold-light)', fontWeight: '600' }}>10+ properties</span> across Northern India. We combine <span style={{ color: 'var(--gold-light)', fontWeight: '600' }}>50+ years</span> of hands-on hospitality expertise with cutting-edge operations to drive <span style={{ color: 'var(--gold-light)', fontWeight: '600' }}>maximum yield and asset value</span> for hotel owners.
             </p>
             
             <div className="hero-cta-group">
