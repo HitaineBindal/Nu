@@ -103,6 +103,7 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #1a1612; /* Deep charcoal black for high contrast against cream glass */
+  white-space: nowrap;
 }
 
 .theme-dark .logo-text {
@@ -3444,6 +3445,12 @@ select.form-input {
 
 /* Timeline/Roadmap mobile layouts alignment */
 @media (max-width: 768px) {
+  .logo-text {
+    font-size: 0.95rem !important;
+  }
+  .logo-img {
+    height: 34px !important;
+  }
   .header {
     width: 100% !important;
     top: 0 !important;
