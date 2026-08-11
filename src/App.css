@@ -1115,7 +1115,7 @@
 .roadmap-dot {
   position: absolute;
   left: 28px;
-  top: 32px; /* Aligns vertically with the center of the card badges */
+  top: 24px; /* Centered with the connector and card badges */
   width: 25px;
   height: 25px;
   border-radius: 50%;
@@ -1283,7 +1283,7 @@
 /* Active Gold Connector Threads (Fade & Pulse) */
 .roadmap-connector {
   position: absolute;
-  top: 18px;
+  top: 36px; /* Aligned with the center of the dot (24px + 12px) and card badges */
   left: 53px;
   width: 27px;
   height: 1px;
