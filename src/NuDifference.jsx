@@ -90,27 +90,49 @@ export default function NuDifference() {
   }, [hasTyped]);
 
   useEffect(() => {
-    const observerOptions = {
-      root: null,
-      rootMargin: '-30% 0px -40% 0px', // Focus on the middle part of the screen
-      threshold: 0.1
-    };
-
-    const handleIntersect = (entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const step = parseInt(entry.target.getAttribute('data-step'), 10);
-          setActiveStep(step);
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(handleIntersect, observerOptions);
+    let observer;
     const elements = document.querySelectorAll('.step-card');
-    elements.forEach(el => observer.observe(el));
+
+    const setupObserver = () => {
+      if (observer) {
+        elements.forEach(el => observer.unobserve(el));
+        observer.disconnect();
+      }
+
+      const isMobile = window.innerWidth <= 768;
+      const observerOptions = {
+        root: null,
+        rootMargin: isMobile ? '-60% 0px -5% 0px' : '-30% 0px -40% 0px', // Target the lower visible viewport area on mobile
+        threshold: isMobile ? 0.05 : 0.1
+      };
+
+      const handleIntersect = (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const step = parseInt(entry.target.getAttribute('data-step'), 10);
+            setActiveStep(step);
+          }
+        });
+      };
+
+      observer = new IntersectionObserver(handleIntersect, observerOptions);
+      elements.forEach(el => observer.observe(el));
+    };
+
+    setupObserver();
+
+    const handleResize = () => {
+      setupObserver();
+    };
+
+    window.addEventListener('resize', handleResize);
 
     return () => {
-      elements.forEach(el => observer.unobserve(el));
+      window.removeEventListener('resize', handleResize);
+      if (observer) {
+        elements.forEach(el => observer.unobserve(el));
+        observer.disconnect();
+      }
     };
   }, []);
 
