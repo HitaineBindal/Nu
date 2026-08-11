@@ -4365,24 +4365,30 @@ select.form-input {
   }
 }
 
-/* Mobile Navigation Drawer Links Contrast Repair */
-.mobile-nav-drawer {
+/* Mobile Navigation Drawer Links Contrast Repair (High Specificity to override transparent header overrides) */
+.header .mobile-nav-drawer,
+.header:not(.scaff-scrolled) .mobile-nav-drawer {
   background-color: var(--bg-cream) !important;
 }
 
-.theme-dark .mobile-nav-drawer {
+.theme-dark .header .mobile-nav-drawer,
+.theme-dark .header:not(.scaff-scrolled) .mobile-nav-drawer {
   background-color: #171513 !important; /* Dark menu drawer in dark mode */
 }
 
-.mobile-nav-drawer .nav-link {
+.header .mobile-nav-drawer .nav-link,
+.header:not(.scaff-scrolled) .mobile-nav-drawer .nav-link {
   color: #2b2621 !important; /* Dark text for light mode cream drawer */
 }
 
-.theme-dark .mobile-nav-drawer .nav-link {
+.theme-dark .header .mobile-nav-drawer .nav-link,
+.theme-dark .header:not(.scaff-scrolled) .mobile-nav-drawer .nav-link {
   color: #e5dfd5 !important; /* Light text for dark mode drawer */
 }
 
-.mobile-nav-drawer .nav-link:hover,
-.mobile-nav-drawer .nav-link.active {
+.header .mobile-nav-drawer .nav-link:hover,
+.header:not(.scaff-scrolled) .mobile-nav-drawer .nav-link:hover,
+.header .mobile-nav-drawer .nav-link.active,
+.header:not(.scaff-scrolled) .mobile-nav-drawer .nav-link.active {
   color: var(--gold-primary) !important;
 }
