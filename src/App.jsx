@@ -875,8 +875,8 @@ function App() {
       <header className={`header ${isScrolled ? 'glass-nav scaff-scrolled' : ''}`}>
         <div className="container">
           <a href="#" className="logo-container">
-            <img src="/logo.webp" alt="NU Hotels Logo" className="logo-img" />
-            <span className="logo-text">NU Hotels</span>
+            <img src="/logo.webp" alt="NU Hotels & Resorts Logo" className="logo-img" />
+            <span className="logo-text">NU Hotels & Resorts</span>
           </a>
 
           <ul className="nav-links">
@@ -1800,8 +1800,8 @@ function App() {
           <div className="footer-grid">
             <div>
               <div className="logo-container" style={{ marginBottom: '20px' }}>
-                <img src="/logo.webp" alt="NU Hotels Logo" className="logo-img" style={{ filter: 'brightness(1.5)' }} />
-                <span className="logo-text" style={{ color: 'var(--text-light)' }}>NU Hotels</span>
+                <img src="/logo.webp" alt="NU Hotels & Resorts Logo" className="logo-img" style={{ filter: 'brightness(1.5)' }} />
+                <span className="logo-text" style={{ color: 'var(--text-light)' }}>NU Hotels & Resorts</span>
               </div>
               <p className="footer-brand-desc">
                 A promoter-led hospitality force elevating independent properties through optimized operations, sales power, and financial transparency.
