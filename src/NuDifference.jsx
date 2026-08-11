@@ -184,14 +184,14 @@ export default function NuDifference() {
         </div>
       </section>
 
-      {/* 2. MAIN STORY — BEFORE → NU HOTELS → AFTER */}
+      {/* 2. MAIN STORY - BEFORE → NU HOTELS → AFTER */}
       <section className="section-padding" style={{ backgroundColor: 'var(--bg-cream)', borderTop: '1px solid rgba(169, 127, 56, 0.12)', paddingBottom: '100px' }}>
         <div className="container">
           <div className="showcase-header" style={{ marginBottom: '40px', textAlign: 'center' }}>
             <span className="hero-subtitle">The Transformation</span>
             <h2>What Changes When NU Hotels Comes In?</h2>
             <p style={{ maxWidth: '650px', margin: '0 auto' }}>
-              We don't just manage hotels—we transform them. Scroll down to see how our operational framework transforms a property visually and operationally.
+              We don't just manage hotels - we transform them. Scroll down to see how our operational framework transforms a property visually and operationally.
             </p>
           </div>
 
