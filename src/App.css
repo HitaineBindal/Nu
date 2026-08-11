@@ -1605,6 +1605,12 @@
     position: sticky;
     top: 150px;
   }
+  #growth {
+    padding-bottom: 220px !important;
+  }
+  .growth-step-card:last-child {
+    margin-bottom: 120px;
+  }
 }
 
 .constellation-svg {
