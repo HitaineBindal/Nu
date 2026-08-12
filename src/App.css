@@ -1602,15 +1602,15 @@
 
 @media (min-width: 901px) {
   .growth-map-col {
-    position: sticky;
-    top: 150px;
+    position: relative;
+    top: auto;
   }
 }
 
 .constellation-svg {
   width: 100%;
   max-width: 280px;
-  height: auto;
+  height: 100%;
   overflow: visible;
 }
 
