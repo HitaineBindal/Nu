@@ -99,7 +99,7 @@ export default function NuDifference() {
         observer.disconnect();
       }
 
-      const isMobile = window.innerWidth <= 768;
+      const isMobile = window.innerWidth <= 1024;
       const observerOptions = {
         root: null,
         rootMargin: isMobile ? '-60% 0px -5% 0px' : '-30% 0px -40% 0px', // Target the lower visible viewport area on mobile

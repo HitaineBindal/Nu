@@ -441,7 +441,7 @@ function App() {
       let visibleCards = 3;
       if (window.innerWidth <= 600) {
         visibleCards = 1;
-      } else if (window.innerWidth <= 991) {
+      } else if (window.innerWidth <= 1024) {
         visibleCards = 2;
       }
       const maxIndex = TESTIMONIALS_DATA.length - visibleCards;
@@ -458,7 +458,7 @@ function App() {
       let visibleCards = 3;
       if (window.innerWidth <= 600) {
         visibleCards = 1;
-      } else if (window.innerWidth <= 991) {
+      } else if (window.innerWidth <= 1024) {
         visibleCards = 2;
       }
       const maxIndex = TESTIMONIALS_DATA.length - visibleCards;
@@ -477,7 +477,7 @@ function App() {
         let visibleCards = 3;
         if (window.innerWidth <= 600) {
           visibleCards = 1;
-        } else if (window.innerWidth <= 991) {
+        } else if (window.innerWidth <= 1024) {
           visibleCards = 2;
         }
         const maxIndex = TESTIMONIALS_DATA.length - visibleCards;
