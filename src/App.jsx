@@ -1395,7 +1395,7 @@ function App() {
                 {/* Node 1: Core Operations */}
                 <g className={`map-node ${growthProgress >= 0 ? 'active' : ''}`}>
                   <circle cx={150} cy={95} r={12} className="node-dot" />
-                  <text x={150} y={95} dominantBaseline="central" textAnchor="middle" className="node-number">1</text>
+                  <text x={150} y={95} dy=".35em" textAnchor="middle" className="node-number">1</text>
                   <text x={150} y={60} className="node-label-phase" textAnchor="middle">Phase 01</text>
                   <text x={150} y={72} className="node-label-city" textAnchor="middle">Core Operations</text>
                 </g>
@@ -1403,7 +1403,7 @@ function App() {
                 {/* Node 2: Market Scale */}
                 <g className={`map-node ${growthProgress >= 30 ? 'active' : ''}`}>
                   <circle cx={90} cy={305} r={12} className="node-dot" />
-                  <text x={90} y={305} dominantBaseline="central" textAnchor="middle" className="node-number">2</text>
+                  <text x={90} y={305} dy=".35em" textAnchor="middle" className="node-number">2</text>
                   <text x={68} y={300} className="node-label-phase" textAnchor="end">Phase 02</text>
                   <text x={68} y={312} className="node-label-city" textAnchor="end">Market Scale</text>
                 </g>
@@ -1411,7 +1411,7 @@ function App() {
                 {/* Node 3: New Formats */}
                 <g className={`map-node ${growthProgress >= 65 ? 'active' : ''}`}>
                   <circle cx={210} cy={515} r={12} className="node-dot" />
-                  <text x={210} y={515} dominantBaseline="central" textAnchor="middle" className="node-number">3</text>
+                  <text x={210} y={515} dy=".35em" textAnchor="middle" className="node-number">3</text>
                   <text x={232} y={510} className="node-label-phase" textAnchor="start">Phase 03</text>
                   <text x={232} y={522} className="node-label-city" textAnchor="start">New Formats</text>
                 </g>
@@ -1419,7 +1419,7 @@ function App() {
                 {/* Node 4: Adjacent Verticals */}
                 <g className={`map-node ${growthProgress >= 93 ? 'active' : ''}`}>
                   <circle cx={150} cy={725} r={12} className="node-dot" />
-                  <text x={150} y={725} dominantBaseline="central" textAnchor="middle" className="node-number">4</text>
+                  <text x={150} y={725} dy=".35em" textAnchor="middle" className="node-number">4</text>
                   <text x={150} y={755} className="node-label-phase" textAnchor="middle">Phase 04</text>
                   <text x={150} y={767} className="node-label-city" textAnchor="middle">Adjacent Verticals</text>
                 </g>
