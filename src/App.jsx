@@ -1374,7 +1374,7 @@ function App() {
               <svg className="constellation-svg" viewBox="0 0 300 820" fill="none" xmlns="http://www.w3.org/2000/svg">
                 {/* Background Connecting Path (Inactive) */}
                 <path 
-                  d="M 150 95 L 90 305 L 210 515 L 150 725" 
+                  d="M 150 45 L 90 255 L 210 465 L 150 675" 
                   stroke="rgba(169, 127, 56, 0.12)" 
                   strokeWidth="2" 
                   strokeDasharray="4 4" 
@@ -1382,7 +1382,7 @@ function App() {
                 
                 {/* Active drawing path */}
                 <path 
-                  d="M 150 95 L 90 305 L 210 515 L 150 725" 
+                  d="M 150 45 L 90 255 L 210 465 L 150 675" 
                   stroke="var(--gold-primary)" 
                   strokeWidth="2" 
                   strokeDasharray="700" 
@@ -1394,34 +1394,34 @@ function App() {
 
                 {/* Node 1: Core Operations */}
                 <g className={`map-node ${growthProgress >= 0 ? 'active' : ''}`}>
-                  <circle cx={150} cy={95} r={12} className="node-dot" />
-                  <text x={150} y={95} dy=".35em" textAnchor="middle" className="node-number">1</text>
-                  <text x={150} y={60} className="node-label-phase" textAnchor="middle">Phase 01</text>
-                  <text x={150} y={72} className="node-label-city" textAnchor="middle">Core Operations</text>
+                  <circle cx={150} cy={45} r={12} className="node-dot" />
+                  <text x={150} y={45} dy=".35em" textAnchor="middle" className="node-number">1</text>
+                  <text x={150} y={10} className="node-label-phase" textAnchor="middle">Phase 01</text>
+                  <text x={150} y={22} className="node-label-city" textAnchor="middle">Core Operations</text>
                 </g>
 
                 {/* Node 2: Market Scale */}
                 <g className={`map-node ${growthProgress >= 30 ? 'active' : ''}`}>
-                  <circle cx={90} cy={305} r={12} className="node-dot" />
-                  <text x={90} y={305} dy=".35em" textAnchor="middle" className="node-number">2</text>
-                  <text x={68} y={300} className="node-label-phase" textAnchor="end">Phase 02</text>
-                  <text x={68} y={312} className="node-label-city" textAnchor="end">Market Scale</text>
+                  <circle cx={90} cy={255} r={12} className="node-dot" />
+                  <text x={90} y={255} dy=".35em" textAnchor="middle" className="node-number">2</text>
+                  <text x={68} y={250} className="node-label-phase" textAnchor="end">Phase 02</text>
+                  <text x={68} y={262} className="node-label-city" textAnchor="end">Market Scale</text>
                 </g>
 
                 {/* Node 3: New Formats */}
                 <g className={`map-node ${growthProgress >= 65 ? 'active' : ''}`}>
-                  <circle cx={210} cy={515} r={12} className="node-dot" />
-                  <text x={210} y={515} dy=".35em" textAnchor="middle" className="node-number">3</text>
-                  <text x={232} y={510} className="node-label-phase" textAnchor="start">Phase 03</text>
-                  <text x={232} y={522} className="node-label-city" textAnchor="start">New Formats</text>
+                  <circle cx={210} cy={465} r={12} className="node-dot" />
+                  <text x={210} y={465} dy=".35em" textAnchor="middle" className="node-number">3</text>
+                  <text x={232} y={460} className="node-label-phase" textAnchor="start">Phase 03</text>
+                  <text x={232} y={472} className="node-label-city" textAnchor="start">New Formats</text>
                 </g>
 
                 {/* Node 4: Adjacent Verticals */}
                 <g className={`map-node ${growthProgress >= 93 ? 'active' : ''}`}>
-                  <circle cx={150} cy={725} r={12} className="node-dot" />
-                  <text x={150} y={725} dy=".35em" textAnchor="middle" className="node-number">4</text>
-                  <text x={150} y={755} className="node-label-phase" textAnchor="middle">Phase 04</text>
-                  <text x={150} y={767} className="node-label-city" textAnchor="middle">Adjacent Verticals</text>
+                  <circle cx={150} cy={675} r={12} className="node-dot" />
+                  <text x={150} y={675} dy=".35em" textAnchor="middle" className="node-number">4</text>
+                  <text x={150} y={705} className="node-label-phase" textAnchor="middle">Phase 04</text>
+                  <text x={150} y={717} className="node-label-city" textAnchor="middle">Adjacent Verticals</text>
                 </g>
               </svg>
             </div>
