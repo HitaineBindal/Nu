@@ -1327,13 +1327,6 @@ function App() {
                   Prior to our transition, the boutique property struggled with low occupancy, high dependency on OTA channels, and operational friction. By deploying our centralized sales network, integrating Vite PMS/CRS dynamic rate management, and retraining staff with our signature <span className="highlight-gold">"Sewak"</span> hospitality program, we unlocked high efficiency and turned the asset profitable in under 60 days.
                 </p>
 
-                <button 
-                  className="btn btn-primary case-cta" 
-                  onClick={() => setIsCaseDrawerOpen(true)}
-                  style={{ marginTop: '30px', alignSelf: 'flex-start' }}
-                >
-                  View Operational Logs
-                </button>
               </div>
 
               <div className="case-metrics-grid">
