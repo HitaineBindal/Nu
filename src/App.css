@@ -1604,6 +1604,10 @@
   .growth-map-col {
     position: relative;
     top: auto;
+    padding: 0;
+  }
+  .growth-step-card {
+    height: 170px;
   }
 }
 
