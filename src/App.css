@@ -3510,6 +3510,9 @@ select.form-input {
     width: 15px !important;
     top: 36px !important;
   }
+  .hero-cta-group .btn {
+    padding: 14px 12px !important;
+  }
 }
 
 /* Hotel Card Brand Watermark Overlay */
