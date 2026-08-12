@@ -3478,6 +3478,9 @@ select.form-input {
   .logo-img {
     height: 34px !important;
   }
+  .header-contact-btn {
+    display: none !important;
+  }
   .header {
     width: 100% !important;
     top: 0 !important;
@@ -4420,4 +4423,10 @@ select.form-input {
 .header .mobile-nav-drawer .nav-link.active,
 .header:not(.scaff-scrolled) .mobile-nav-drawer .nav-link.active {
   color: var(--gold-primary) !important;
+}
+
+@media (max-width: 360px) {
+  .logo-text {
+    font-size: 0.82rem !important;
+  }
 }

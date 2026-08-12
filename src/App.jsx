@@ -905,7 +905,7 @@ function App() {
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             <button 
-              className="btn btn-primary magnetic-btn" 
+              className="btn btn-primary magnetic-btn header-contact-btn" 
               style={{ padding: '6px 14px', fontSize: '0.68rem', letterSpacing: '0.05em' }}
               onClick={() => setIsContactModalOpen(true)}
               onMouseMove={handleMagneticMove}
@@ -945,6 +945,13 @@ function App() {
             <a href="#about" className={`nav-link ${currentPage === 'home' && activeHash === '#about' ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>About Us</a>
             <a href="#difference" className={`nav-link ${currentPage === 'difference' || activeHash === '#difference' ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>The NU Difference</a>
             <a href="#hotels" className={`nav-link ${currentPage === 'home' && activeHash === '#hotels' ? 'active' : ''}`} onClick={() => setMobileMenuOpen(false)}>Portfolio</a>
+            <button 
+              className="btn btn-primary" 
+              style={{ width: '100%', marginTop: '8px', padding: '12px', fontSize: '0.8rem' }}
+              onClick={() => { setMobileMenuOpen(false); setIsContactModalOpen(true); }}
+            >
+              Contact Us
+            </button>
           </div>
         )}
       </header>
