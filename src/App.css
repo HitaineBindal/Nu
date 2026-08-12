@@ -638,7 +638,7 @@
   box-shadow: 0 15px 30px rgba(169, 127, 56, 0.15);
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1024px) {
   .team-split-grid {
     grid-template-columns: 1fr;
     gap: 40px;
@@ -1500,7 +1500,7 @@
   opacity: 1;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   .centered-case-modal {
     height: 90vh;
     padding: 30px 24px;
@@ -1583,7 +1583,7 @@
   align-items: flex-start;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   .growth-dashboard {
     grid-template-columns: 1fr;
     gap: 48px;
@@ -1600,14 +1600,15 @@
   padding: 20px;
 }
 
-@media (min-width: 901px) {
+@media (min-width: 1025px) {
   .growth-map-col {
     position: relative;
     top: auto;
     padding: 0;
   }
   .growth-step-card {
-    height: 170px;
+    min-height: 170px;
+    height: auto;
   }
 }
 
@@ -1618,7 +1619,7 @@
   overflow: visible;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   .constellation-svg {
     max-width: 180px;
   }
@@ -1824,7 +1825,7 @@
   gap: 60px;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   .roi-calculator-box {
     grid-template-columns: 1fr;
     padding: 30px;
@@ -2738,7 +2739,7 @@ select.form-input {
   opacity: 1;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   .hotel-detail-modal {
     grid-template-columns: 1fr;
     height: 90vh;
@@ -2754,7 +2755,7 @@ select.form-input {
   border-right: 1px solid rgba(169, 127, 56, 0.15);
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   .modal-visual-col {
     height: 260px;
     border-right: none;
@@ -2800,7 +2801,7 @@ select.form-input {
   overflow-y: auto;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   .modal-content-col {
     height: auto;
     padding: 30px 24px;
@@ -3311,7 +3312,7 @@ select.form-input {
   display: none;
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1024px) {
   .testimonial-card-item {
     flex: 0 0 calc(50% - 12px) !important;
   }
@@ -3585,7 +3586,7 @@ select.form-input {
   margin-top: 40px;
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1024px) {
   .transformation-grid {
     grid-template-columns: 1fr;
     gap: 40px;
@@ -3717,7 +3718,7 @@ select.form-input {
   position: relative;
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1024px) {
   .transformation-bridge-card {
     padding: 40px;
   }
@@ -3795,7 +3796,7 @@ select.form-input {
   gap: 30px;
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1024px) {
   .journey-stages-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -3872,7 +3873,7 @@ select.form-input {
   gap: 30px;
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1024px) {
   .options-flex-layout {
     flex-direction: column;
   }
@@ -3976,7 +3977,7 @@ select.form-input {
   gap: 40px;
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1024px) {
   .expertise-compact-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -4139,7 +4140,8 @@ select.form-input {
 }
 
 .console-slide-card {
-  height: 520px;
+  min-height: 520px;
+  height: auto;
   margin-bottom: 250px;
   display: flex;
   flex-direction: column;
@@ -4225,7 +4227,7 @@ select.form-input {
 }
 
 /* Responsive Overrides */
-@media (max-width: 991px) {
+@media (max-width: 1024px) {
   .transformation-interactive-console {
     grid-template-columns: 1fr;
     gap: 30px;
@@ -4243,6 +4245,7 @@ select.form-input {
   }
   
   .console-slide-card {
+    min-height: auto;
     height: auto;
     margin-bottom: 50px;
     padding: 30px 24px;
