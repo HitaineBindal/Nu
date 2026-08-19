@@ -35,7 +35,7 @@ const HOTELS_DATA = [
     name: "NU Luxe Hotel Tamarind",
     location: "Sector 66A, Chandigarh Airport Road, Mohali, Punjab",
     category: "luxe",
-    image: "/hotel_images/hotel_tamarind.webp",
+    image: "/hotel_images/hotel_tamarind.jpg",
     tag: "Flagship Luxury",
     features: ["Airport Proximity", "Fine Dining", "Luxe Suites"],
     keys: 45,
@@ -49,7 +49,7 @@ const HOTELS_DATA = [
     name: "NU Luxe Hotel Highway Inn",
     location: "Sector 82, Chandigarh Airport Road, Mohali, Punjab",
     category: "luxe",
-    image: "/hotel_images/hotel_highway.webp",
+    image: "/hotel_images/hotel_highway.jpg",
     tag: "Transit Premium",
     features: ["Sleek Lounge", "Business Hub", "High Speed Wi-Fi"],
     keys: 60,
@@ -63,7 +63,7 @@ const HOTELS_DATA = [
     name: "NU Luxe Hotel Ramee Collection",
     location: "Sector -65A, Phase 11, Mohali, Punjab",
     category: "luxe",
-    image: "/hotel_images/hotel_ramee.webp",
+    image: "/hotel_images/hotel_ramee.jpg",
     tag: "Boutique Experience",
     features: ["Bespoke Decor", "Curated Wellness", "Private Dining"],
     keys: 32,
@@ -77,7 +77,7 @@ const HOTELS_DATA = [
     name: "NU Luxe Hotel Tamarind Tree",
     location: "Chandigarh-Ludhiana Highway, Mohali, Punjab",
     category: "luxe",
-    image: "/hotel_images/hotel_tamarind_tree.webp",
+    image: "/hotel_images/hotel_tamarind_tree.jpg",
     tag: "Resort Sanctuary",
     features: ["Landscaped Gardens", "Banquet Hall", "Infinity Pool"],
     keys: 25,
@@ -91,7 +91,7 @@ const HOTELS_DATA = [
     name: "NU Axis Hotel South End",
     location: "Sector 35, Chandigarh",
     category: "axis",
-    image: "/hotel_images/hotel_south_end.webp",
+    image: "/hotel_images/hotel_south_end.jpg",
     tag: "Urban Business",
     features: ["Central Chandigarh", "Meeting Spaces", "Executive Club"],
     keys: 40,
@@ -105,7 +105,7 @@ const HOTELS_DATA = [
     name: "NU Axis Hotel Chandigarh Grand & Banquet",
     location: "IT Park, Chandigarh",
     category: "axis",
-    image: "/hotel_images/hotel_chandigarh_grand.webp",
+    image: "/hotel_images/hotel_chandigarh_grand.jpg",
     tag: "Grand Venue",
     features: ["IT Hub location", "Massive Banquet", "Pre-function Area"],
     keys: 85,
@@ -119,7 +119,7 @@ const HOTELS_DATA = [
     name: "NU Nest Hotel Samci Riviera",
     location: "Raj Bagh, Srinagar, Jammu & Kashmir",
     category: "nest",
-    image: "/hotel_images/hotel_samci_riviera.webp",
+    image: "/hotel_images/hotel_samci_riviera.jpg",
     tag: "Alpine Retreat",
     features: ["Riverfront View", "Cozy Fireplace", "Warm Kashmiri Tea"],
     keys: 48,
@@ -133,14 +133,14 @@ const HOTELS_DATA = [
     name: "NU Nest Hotel Vale Montis",
     location: "Dal Lake, Srinagar, Jammu & Kashmir",
     category: "nest",
-    image: "/hotel_images/hotel_vale_montis.webp",
+    image: "/hotel_images/hotel_vale_montis.jpg",
     tag: "Lakeside Sanctuary",
     features: ["Shikara Dock Access", "Scenic Roof", "Heritage Luxury"],
     keys: 30,
     rgi: "116%",
     occupancy: "71%",
     narrative: "Lakeside sanctuary right on Dal Lake. Features a private shikara dock, scenic roofdeck tea garden, and custom heritage suites crafted to attract international slow-travel guests.",
-    objectPosition: "center 40%"
+    objectPosition: "center 65%"
   }
 ];
 
@@ -345,38 +345,52 @@ function AnimatedCounter({ target, duration = 1500, suffix = "" }) {
       animationFrameId = window.requestAnimationFrame(step);
     };
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const [entry] = entries;
-        if (entry.isIntersecting) {
-          startAnimation();
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.05 }
-    );
+    if (typeof window !== 'undefined' && 'IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const [entry] = entries;
+          if (entry.isIntersecting) {
+            startAnimation();
+            observer.disconnect();
+          }
+        },
+        { threshold: 0.1 }
+      );
 
-    if (elementRef.current) {
-      observer.observe(elementRef.current);
-    }
-
-    // Fallback: If it doesn't trigger in 300ms, start it anyway
-    const fallbackTimer = setTimeout(() => {
-      startAnimation();
-      observer.disconnect();
-    }, 300);
-
-    return () => {
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
+      if (elementRef.current) {
+        observer.observe(elementRef.current);
       }
-      observer.disconnect();
-      clearTimeout(fallbackTimer);
-    };
+
+      return () => {
+        if (animationFrameId) {
+          cancelAnimationFrame(animationFrameId);
+        }
+        observer.disconnect();
+      };
+    } else {
+      // Fallback for older browsers
+      startAnimation();
+      return () => {
+        if (animationFrameId) {
+          cancelAnimationFrame(animationFrameId);
+        }
+      };
+    }
   }, [target, duration]);
 
   return <span ref={elementRef}>{count}{suffix}</span>;
 }
+
+const MMT_URLS = {
+  1: "https://www.makemytrip.com/hotels/hotel_tamarind-details-mohali.html",
+  2: "https://www.makemytrip.com/hotels/hotel_highway_inn-details-mohali.html",
+  3: "https://www.booking.com/hotel/in/ramee-collection-airport-road-mohali.html",
+  4: "https://www.makemytrip.com/hotels/tamarind_tree_manali_highway-details-kharar.html",
+  5: "https://www.makemytrip.com/hotels/hotel_south_end-details-chandigarh.html",
+  6: "https://www.makemytrip.com/hotels/chandigarh_grand_banquet_near_sukhna_lake_it_park_railway_station-details-chandigarh.html",
+  7: "https://in.trip.com/hotels/srinagar-hotel-detail-11270647/hotel-samci-riviera/",
+  8: "https://www.booking.com/hotel/in/vale-montis.html"
+};
 
 function App() {
   const [activeCategory, setActiveCategory] = useState("all");
@@ -893,7 +907,10 @@ function App() {
         <div className="container">
           <a href="#" className="logo-container">
             <img src="/logo.webp" alt="NU Hotels & Resorts Logo" className="logo-img" />
-            <span className="logo-text">NU Hotels & Resorts</span>
+            <span className="logo-text" style={{ display: 'flex', flexDirection: 'column', lineHeight: '1.1' }}>
+              <span>NU Hotels</span>
+              <span style={{ fontSize: '0.85em', fontWeight: '500', letterSpacing: '0.05em' }}>& Resorts</span>
+            </span>
           </a>
 
           <ul className="nav-links">
@@ -988,7 +1005,7 @@ function App() {
             </h1>
             
             <p className="hero-desc">
-              A premium, promoter-led hotel management platform with a growing portfolio of <span style={{ color: 'var(--gold-light)', fontWeight: '600' }}>10+ properties</span> across Northern India. We combine <span style={{ color: 'var(--gold-light)', fontWeight: '600' }}>50+ years</span> of hands-on hospitality expertise with cutting-edge operations to drive <span style={{ color: 'var(--gold-light)', fontWeight: '600' }}>maximum yield and asset value</span> for hotel owners.
+              A premium hotel management platform with a growing portfolio of <span style={{ color: 'var(--gold-light)', fontWeight: '600' }}>10+ properties</span> across Northern India. We combine <span style={{ color: 'var(--gold-light)', fontWeight: '600' }}>50+ years</span> of hands-on hospitality expertise with cutting-edge operations to drive <span style={{ color: 'var(--gold-light)', fontWeight: '600' }}>maximum yield and asset value</span> for hotel owners.
             </p>
             
             <div className="hero-cta-group">
@@ -1125,10 +1142,10 @@ function App() {
                     textAlign: 'left',
                     transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
                   }}>
-                    <h4 style={{ color: 'var(--text-dark)', fontSize: '1rem', marginBottom: '4px', fontWeight: '600' }}>Rajesh Nair</h4>
-                    <span style={{ color: 'var(--gold-primary)', fontSize: '0.75rem', display: 'block', marginBottom: '12px', fontWeight: '600' }}>President & CEO</span>
+                    <h4 style={{ color: 'var(--text-dark)', fontSize: '1rem', marginBottom: '4px', fontWeight: '600' }}>Jaspal Singh</h4>
+                    <span style={{ color: 'var(--gold-primary)', fontSize: '0.75rem', display: 'block', marginBottom: '12px', fontWeight: '600' }}>Chief Operating Officer</span>
                     <p style={{ color: 'var(--text-muted)', fontSize: '0.75rem', lineHeight: '1.4' }}>
-                      Directs corporate growth strategy and asset management policies across our tier segments.
+                      Directs the on ground property operations and leads the “Sewak- In house talent development program”.
                     </p>
                   </div>
 
@@ -1141,10 +1158,10 @@ function App() {
                     textAlign: 'left',
                     transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
                   }}>
-                    <h4 style={{ color: 'var(--text-dark)', fontSize: '1rem', marginBottom: '4px', fontWeight: '600' }}>Priya Sen</h4>
-                    <span style={{ color: 'var(--gold-primary)', fontSize: '0.75rem', display: 'block', marginBottom: '12px', fontWeight: '600' }}>Chief Operating Officer</span>
+                    <h4 style={{ color: 'var(--text-dark)', fontSize: '1rem', marginBottom: '4px', fontWeight: '600' }}>Auzma Fida</h4>
+                    <span style={{ color: 'var(--gold-primary)', fontSize: '0.75rem', display: 'block', marginBottom: '12px', fontWeight: '600' }}>Director, Finance</span>
                     <p style={{ color: 'var(--text-muted)', fontSize: '0.75rem', lineHeight: '1.4' }}>
-                      Leads on-ground property operations, procurement networks, and service delivery audits.
+                      Controls the brand/property accounts, procurement networks, and financial audits.
                     </p>
                   </div>
 
@@ -1157,8 +1174,8 @@ function App() {
                     textAlign: 'left',
                     transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
                   }}>
-                    <h4 style={{ color: 'var(--text-dark)', fontSize: '1rem', marginBottom: '4px', fontWeight: '600' }}>Karan Kapoor</h4>
-                    <span style={{ color: 'var(--gold-primary)', fontSize: '0.75rem', display: 'block', marginBottom: '12px', fontWeight: '600' }}>VP, Yield & Technology</span>
+                    <h4 style={{ color: 'var(--text-dark)', fontSize: '1rem', marginBottom: '4px', fontWeight: '600' }}>Ruchi Kasba</h4>
+                    <span style={{ color: 'var(--gold-primary)', fontSize: '0.75rem', display: 'block', marginBottom: '12px', fontWeight: '600' }}>Director, Yield & Technology</span>
                     <p style={{ color: 'var(--text-muted)', fontSize: '0.75rem', lineHeight: '1.4' }}>
                       Drives dynamic pricing algorithms, CRS integrations, and OTA channel optimization.
                     </p>
@@ -1173,10 +1190,10 @@ function App() {
                     textAlign: 'left',
                     transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
                   }}>
-                    <h4 style={{ color: 'var(--text-dark)', fontSize: '1rem', marginBottom: '4px', fontWeight: '600' }}>Anjali Sharma</h4>
-                    <span style={{ color: 'var(--gold-primary)', fontSize: '0.75rem', display: 'block', marginBottom: '12px', fontWeight: '600' }}>Director, Guest Standards</span>
+                    <h4 style={{ color: 'var(--text-dark)', fontSize: '1rem', marginBottom: '4px', fontWeight: '600' }}>Sandeep Sharma</h4>
+                    <span style={{ color: 'var(--gold-primary)', fontSize: '0.75rem', display: 'block', marginBottom: '12px', fontWeight: '600' }}>Director, Sales</span>
                     <p style={{ color: 'var(--text-muted)', fontSize: '0.75rem', lineHeight: '1.4' }}>
-                      Directs the "Sewak" training framework and ensures guest experience compliance.
+                      Directs corporate sales strategy and asset acquisition policies across our tier segments.
                     </p>
                   </div>
                 </div>
@@ -1351,7 +1368,7 @@ function App() {
 
                 <div className="grid-metric-item">
                   <span className="grid-metric-sub">Owner Profitability</span>
-                  <div className="grid-metric-val">+480 bps</div>
+                  <div className="grid-metric-val">+48bps</div>
                   <span className="grid-metric-lbl">GOP Margin Expansion</span>
                 </div>
 
@@ -1813,7 +1830,7 @@ function App() {
                 <span className="logo-text" style={{ color: 'var(--text-light)' }}>NU Hotels & Resorts</span>
               </div>
               <p className="footer-brand-desc">
-                A promoter-led hospitality force elevating independent properties through optimized operations, sales power, and financial transparency.
+                A hospitality force elevating independent properties through optimized operations, sales power, and financial transparency.
               </p>
             </div>
 
@@ -1911,36 +1928,9 @@ function App() {
                 src={activeHotelDetail.image} 
                 alt={activeHotelDetail.name} 
                 className="modal-visual-img" 
+                style={{ objectPosition: activeHotelDetail.objectPosition || 'center' }}
               />
               <div className="modal-visual-overlay"></div>
-              
-              {/* Performance Stats Overlay at the bottom of visual */}
-              <div 
-                className="detail-stats-grid" 
-                style={{ 
-                  position: 'absolute', 
-                  bottom: '20px', 
-                  left: '20px', 
-                  right: '20px', 
-                  background: 'rgba(15, 14, 13, 0.85)', 
-                  backdropFilter: 'blur(8px)',
-                  border: '1px solid rgba(169, 127, 56, 0.3)',
-                  margin: 0
-                }}
-              >
-                <div>
-                  <div className="detail-stat-val" style={{ color: 'var(--gold-light)' }}>{activeHotelDetail.keys}</div>
-                  <div className="detail-stat-lbl" style={{ color: 'rgba(255, 255, 255, 0.6)' }}>Keys Count</div>
-                </div>
-                <div>
-                  <div className="detail-stat-val" style={{ color: 'var(--gold-light)' }}>{activeHotelDetail.rgi}</div>
-                  <div className="detail-stat-lbl" style={{ color: 'rgba(255, 255, 255, 0.6)' }}>RGI Boost</div>
-                </div>
-                <div>
-                  <div className="detail-stat-val" style={{ color: 'var(--gold-light)' }}>{activeHotelDetail.occupancy}</div>
-                  <div className="detail-stat-lbl" style={{ color: 'rgba(255, 255, 255, 0.6)' }}>Avg Occupancy</div>
-                </div>
-              </div>
             </div>
 
             {/* Right Scrollable Content Column */}
@@ -1970,49 +1960,17 @@ function App() {
               {/* Narrative */}
               <p className="detail-narrative">{activeHotelDetail.narrative}</p>
 
-              {/* Conversion & Integration Specifications */}
-              <h4 className="detail-suite-header" style={{ marginTop: '24px', marginBottom: '16px' }}>Conversion & Integration Specifications</h4>
-              <div className="detail-suites-list" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px' }}>
-                <div style={{ padding: '16px', background: 'rgba(169, 127, 56, 0.05)', border: '1px solid rgba(169, 127, 56, 0.15)', borderRadius: '4px' }}>
-                  <div style={{ fontWeight: '600', color: 'var(--gold-primary)', fontSize: '0.85rem', marginBottom: '4px' }}>Integration Speed</div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>30–45 Days full property handover, systems, and PMS integration.</div>
-                </div>
-                <div style={{ padding: '16px', background: 'rgba(169, 127, 56, 0.05)', border: '1px solid rgba(169, 127, 56, 0.15)', borderRadius: '4px' }}>
-                  <div style={{ fontWeight: '600', color: 'var(--gold-primary)', fontSize: '0.85rem', marginBottom: '4px' }}>Direct Distribution</div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Setup on direct NU GDS/CRS engines, reducing OTA dependance.</div>
-                </div>
-                <div style={{ padding: '16px', background: 'rgba(169, 127, 56, 0.05)', border: '1px solid rgba(169, 127, 56, 0.15)', borderRadius: '4px' }}>
-                  <div style={{ fontWeight: '600', color: 'var(--gold-primary)', fontSize: '0.85rem', marginBottom: '4px' }}>Staff & Culture Training</div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>100% staff integration under our premium 'Sewak' hospitality model.</div>
-                </div>
-                <div style={{ padding: '16px', background: 'rgba(169, 127, 56, 0.05)', border: '1px solid rgba(169, 127, 56, 0.15)', borderRadius: '4px' }}>
-                  <div style={{ fontWeight: '600', color: 'var(--gold-primary)', fontSize: '0.85rem', marginBottom: '4px' }}>Operational Audits</div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Bi-weekly operations gap reviews and leakage analyses.</div>
-                </div>
-              </div>
-
-              {/* Lower Actions */}
-              <div style={{ borderTop: '1px solid rgba(169, 127, 56, 0.15)', paddingTop: '24px', marginTop: 'auto', display: 'flex' }}>
-                <button 
-                  type="button"
+              <div style={{ marginTop: '30px', display: 'flex' }}>
+                <a 
+                  href={MMT_URLS[activeHotelDetail.id] || `https://www.google.com/search?q=site:makemytrip.com+${encodeURIComponent(activeHotelDetail.name.replace(/^NU (Luxe|Axis|Nest) /i, "") + " " + activeHotelDetail.location)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="btn btn-primary"
-                  style={{ width: '100%', padding: '12px', fontSize: '0.75rem' }}
-                  onClick={() => {
-                    setInquiryForm({
-                      ...inquiryForm,
-                      comments: `Hi, I am interested in a franchise/management conversion prospectus for a property similar to ${activeHotelDetail.name}. Please share technical blueprints and commercial terms.`
-                    });
-                    setActiveHotelDetail(null);
-                    const partnerSection = document.getElementById('partner');
-                    if (partnerSection) {
-                      partnerSection.scrollIntoView({ behavior: 'smooth' });
-                    }
-                    setIsFormHighlighted(true);
-                    setTimeout(() => setIsFormHighlighted(false), 3000);
-                  }}
+                  style={{ width: '100%', gap: '8px', display: 'inline-flex', textTransform: 'uppercase', fontSize: '0.75rem', padding: '12px' }}
                 >
-                  Convert Property
-                </button>
+                  <span>See More Photos</span>
+                  <ExternalLink size={14} />
+                </a>
               </div>
             </div>
           </div>
@@ -2108,7 +2066,7 @@ function App() {
                   <tr>
                     <td style={{ padding: '12px 0', fontWeight: '500' }}>GOP margin</td>
                     <td style={{ padding: '12px 0' }}>18%</td>
-                    <td style={{ padding: '12px 0', color: 'var(--gold-primary)', fontWeight: 'bold' }}>22.8% (+480 bps)</td>
+                    <td style={{ padding: '12px 0', color: 'var(--gold-primary)', fontWeight: 'bold' }}>22.8% (+48bps)</td>
                   </tr>
                 </tbody>
               </table>
