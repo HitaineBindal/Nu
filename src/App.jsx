@@ -385,7 +385,7 @@ const MMT_URLS = {
   1: "https://www.makemytrip.com/hotels/hotel_tamarind-details-mohali.html",
   2: "https://www.makemytrip.com/hotels/hotel_highway_inn-details-mohali.html",
   3: "https://www.booking.com/hotel/in/ramee-collection-airport-road-mohali.html",
-  4: "https://www.makemytrip.com/hotels/tamarind_tree_manali_highway-details-kharar.html",
+  4: "https://www.booking.com/hotel/in/tamarind-tree-punjab.html",
   5: "https://www.makemytrip.com/hotels/hotel_south_end-details-chandigarh.html",
   6: "https://www.makemytrip.com/hotels/chandigarh_grand_banquet_near_sukhna_lake_it_park_railway_station-details-chandigarh.html",
   7: "https://in.trip.com/hotels/srinagar-hotel-detail-11270647/hotel-samci-riviera/",
